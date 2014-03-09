@@ -193,7 +193,7 @@ cleantest :
 	rm -f `ls testing/*.f | sed -e "s/[.]f//g"`
 
 mproper : clean
-	rm -f *.a *~ eye.dat
+	rm -f *.a *~ eye.dat sync*
 	rm -f makefile
 	rm -f vecx vecglx vec4014
 
