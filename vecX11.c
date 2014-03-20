@@ -405,7 +405,7 @@ FORT_INT *px, *py, *ud;
     py1=py2;
     px2 = *px;
     py2 = *py;
-    if( *ud > 0) {
+    if( *ud == 1) {
       if(accis_back==0)XDrawLine(accis_display,
 				 accis_window,
 				 accis_gc,px1,py1,px2,py2);

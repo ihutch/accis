@@ -165,7 +165,7 @@ vecglx : libaccis.a vecglx.o
 vec4014 : libaccis.a
 	date >vec4014
 
-# Synchronization of versions on other machines.
+# Synchronization of versions.
 sync : syncsource synccoptic syncsceptic
 
 syncsceptic : lib$(ACCISDRV).a RefManual.html
