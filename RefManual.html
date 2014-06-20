@@ -110,7 +110,17 @@ FITINIT(xmin,xmax,ymin,ymax) same but fitting nice ranges.
 ACCISINIT() Shorthand call for PLTINIT(0.,1.,0.,1.).
 
 <div class="p"><!----></div>
-SCALEWN(xmin,xmax,ymin,ymax,lnx,lny) Set world scaling, possibly log.
+AUTOINIT(xv,yv,ilength) Set up scaling and axes as for AUTOPLOT based
+on the data, but don't actually do the plotting. This is useful if one
+wishes e.g.&nbsp;to change the color of the line before it is plotted by
+a call to POLYLINE.
+
+<div class="p"><!----></div>
+LAUTOINIT(xv,yv,ilength,lnx,lny) Set up possibly logarithmic scaling
+and axes, without drawing.
+
+<div class="p"><!----></div>
+SCALEWN(xmin,xmax,ymin,ymax,lnx,lny) Set world scaling explicitly, possibly log.
 
 <div class="p"><!----></div>
 FITSCALE(xmin,xmax,ymin,ymax,lnx,lny) same but fitting nice ranges.
@@ -738,5 +748,5 @@ OpenGL packages may be required to provide these.
 T<sub><span class="small">E</span></sub>X
 by <a href="http://hutchinson.belmont.ma.us/tth/">
 T<sub><span class="small">T</span></sub>H</a>,
-version 4.04.<br />On 11 Mar 2014, 15:08.</small>
+version 4.04.<br />On  6 Jun 2014, 21:34.</small>
 </html>

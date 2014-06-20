@@ -107,23 +107,55 @@ c Contour level fitting.
 	 call minmax2(z,L,imax,jmax,minz,maxz)
 	 in=inc
 	 if(int(abs(cl(1))).ne.0) in=abs(cl(1))
-c Get a good spacing that spans the range with no more than 8 cycles of labels.
-c ctic is then a power of 10 times 1,2,4, or 5.
-         call fitrange(minz,maxz,8,nxfac,xfac,ctic,c1st,clast)
-c Determine a good cyc number xcyc.
-	 call fitrange(0.,float(in),8,nxfac,xfac,xcyc,x1st,xlast)
-         cyc=xcyc
-	 call fitrange(c1st+ctic,c1st+2*ctic,cyc+1,
-     $        nxfac,xfac,xtic,x1st,xlast)
+         if(.false.)then
+c Obsolete very complicated scheme for label cycle calculation.
+c Get a good spacing that spans the data range with no more than 8
+c cycles of labels.  ctic is then a power of 10 times 1,2,4, or 5.
+            call fitrange(minz,maxz,8,nxfac,xfac,ctic,c1st,clast)
+c         write(*,*)ctic,c1st,clast,x1st,cyc,xcyc,in
+c Determine a good cyc number xcyc that spans the desired number of
+c contours in no more than 8 steps.
+            call fitrange(0.,float(in),8,nxfac,xfac,xcyc,x1st,xlast)
+            cyc=xcyc
+c Find good xtic number that spans ctic in no more than cyc+1 steps.
+            call fitrange(c1st+ctic,c1st+2*ctic,cyc+1,
+     $           nxfac,xfac,xtic,x1st,xlast)
 c         write(*,*)'ctic,c1st,xtic,x1st,cyc,xcyc,in'
 c         write(*,*)ctic,c1st,xtic,x1st,cyc,xcyc,in
 c Round down, ensuring integers are ok, so that these are now commensurate.
-         cyc=1.0001*ctic/xtic
-         xtic=ctic/cyc
-         in=(clast-c1st)/xtic
-         x1st=c1st+ctic-cyc*xtic
-	 cv=maxz-minz
+            cyc=1.0001*ctic/xtic
+            xtic=ctic/cyc
+            in=(clast-c1st)/xtic
+            x1st=c1st+ctic-cyc*xtic
+            cv=maxz-minz
 c         write(*,*)ctic,c1st,xtic,x1st,cyc,xcyc,in
+         else
+c Current fitting of contours and labels code.
+            call fitrange(minz,maxz,in,nxfac,xfac,xtic,x1st,xlast)
+c Start assuming the label is every contour.
+            cyc=1.
+ 201        continue
+            if(abs(xlast-x1st)/(cyc*xtic).gt.10)then
+c If there would be more than 10 labels. Too many. Find the unit ixtic
+               al10=alog10(xtic)
+               ixtic=nint(10.**(al10-nint(al10-.5)))
+c               write(*,*)xtic,xfac,al10,al10-nint(al10-.5),ixtic
+               if(ixtic.eq.4)then
+c If ixtic.eq.4, then increase xtic unit to 5.
+                  xtic=1.25*xtic
+                  goto 201
+               endif
+c Otherwise, increase the number of contours per label cycle.
+               if(cyc.eq.4)then
+                  cyc=5
+               else
+                  cyc=cyc*2
+               endif
+               goto 201
+            endif
+            in=(xlast-x1st)/xtic
+c            write(*,*)xfac,x1st,xtic,cyc
+         endif
       else
 	 in=abs(nc)
          cyc=1+in/8
@@ -135,6 +167,7 @@ c         write(*,*)ctic,c1st,xtic,x1st,cyc,xcyc,in
             cv=abs(cl(1))
          endif
       endif
+c At this point we need cyc, x1st, xtic, xlast
       if(lclog)then
          if(nc.eq.0)then
 c Do logarithmic contour coloring fitting
