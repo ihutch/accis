@@ -72,6 +72,7 @@ headers= hidcom.h plotcom.h world3.h
 
 #The real makefile
 MAKEFILE=makefile
+WSWITCHES=-Wall
 
 #######################################################################
 # Start of targets
@@ -126,27 +127,27 @@ vecx.o : vecx.c $(MAKEFILE)
 	$(CC)  $(THREADING) -c vecx.c
 
 vecglx.o : vecglx.c
-	$(CC) -c vecglx.c
+	$(CC) -c $(WSWITCHES) vecglx.c
 
 # The file drwstr.f must be compiled with this switch which disables
 # for gnu compilers the interpretation of backslashes as escapes.
 # drwstr needs the NOBACKSLASH switch (and can't be in :: rule above). 
 $(noback_object_files) : drwstr.f fontdata.f vecnp.f $(headers) $(MAKEFILE)
-	$(G77) -c $(NOBACKSLASH) $*.f
+	$(G77) -c $(NOBACKSLASH) $(WSWITCHES) $*.f
 
 #pattern rule, compile using the external definitions of commons
 %.o : %.f ;
-	$(G77) -c $*.f
+	$(G77) -c $(WSWITCHES) $*.f
 
 # Specific test programs of one sort and another should be put here 
 # only if they need special switches.
 
 # The main executable pattern.
 % : %.f lib$(ACCISDRV).a $(VECX)
-	$(G77) -o $* $*.f  -l$(ACCISDRV) $(libraries)
+	$(G77) $(WSWITCHES) -o $* $*.f  -l$(ACCISDRV) $(libraries)
 
 %.4014 : %.f libaccis.a
-	$(G77) -o $*.4014 $*.f -L. -laccis
+	$(G77) $(WSWITCHES) -o $*.4014 $*.f -L. -laccis
 
 vecx : libaccis.a vecx.o
 	cp libaccis.a libaccisX.a

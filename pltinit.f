@@ -199,7 +199,7 @@ c Shift to center it.
 c********************************************************************
       function igetcolor()
       include 'plotcom.h'
-      integer getcolor
+      integer igetcolor
       igetcolor=ncolor
       end
 c**************************************************************************

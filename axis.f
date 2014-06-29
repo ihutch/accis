@@ -378,7 +378,7 @@ c  All tic shifts must be explicit.
       real first,delta
       include 'plotcom.h'
       real wx2nx
-      integer nxfac,tog
+      integer nxfac
       delta=0
       nxfac=0
 	 call gaxis(wxmin*xi,wxmax*xa,nxfac,first,delta, 

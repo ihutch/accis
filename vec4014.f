@@ -207,8 +207,8 @@ c*************************************************************************
 c*************************************************************************
       subroutine accisgradinit(r1,g1,b1,r2,g2,b2)
       integer r1,g1,b1,r2,g2,b2
-      integer i,j,status
-      integer ipixel,red,green,blue;
+      integer i,j
+c      integer ipixel,red,green,blue;
       integer a_gradPixno
       parameter (a_gradPixno=240)
       integer a_gradPix(a_gradPixno)

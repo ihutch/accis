@@ -4,7 +4,7 @@ c Automatic plotting of an array versus its index
       include 'plotcom.h'
       integer n
       real y(n)
-      real xmin,xmax,ymin,ymax
+      real ymin,ymax
       real xfac,xdelta
       integer nxfac
       call minmax(y,n,ymin,ymax)

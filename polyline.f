@@ -383,8 +383,7 @@ c Dashed line version.
       include 'world3.h'
 c Dashed line code
       real nx,ny,nz
-      real vlen,dx,dy,dz,cx,cy,cz,plen,flen,dlen
-      real wx2nx, wy2ny
+      real vlen,dx,dy,cx,cy,plen,flen,dlen
       integer cud
 
 c dashlen is the arc length in normalized units of the the ith line

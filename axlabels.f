@@ -40,7 +40,7 @@ c***********************************************************************
       subroutine boxtitle(title)
       character*(*) title
       include 'plotcom.h'
-      real ctemp,stemp,temp
+      real ctemp,stemp
       ctemp=chrscos
       stemp=chrssin
       chrscos=1.
@@ -65,7 +65,7 @@ c Bit6 (64) set => y-vertical
       subroutine ax3labels(xaxlab,yaxlab,zaxlab)
       character*(*) xaxlab,yaxlab,zaxlab
 c Draw projected axes using the current projection according to ic.
-      integer ic,ngpow
+      integer ic
       include 'plotcom.h'
       include 'world3.h'
       real fixd

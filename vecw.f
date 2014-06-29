@@ -129,7 +129,7 @@ c If ifl.eq.3 return the coordinates relative to center,
 c          rotated to the axes in which the center to eye vector is z.
 c If ifl.eq.-1 return the eye position dx,dy,dz in xt,yt,zt.
       real dx,dy,dz,rz,d,t11,t12,t13,t21,t22,t23,t31,t32,t33,dmz
-      real x0,y0,z0,zsign
+      real x0,y0,z0
       save
       include 'world3.h'
       data t11,t12,t13,t21,t22,t23,t31,t32,t33

@@ -97,11 +97,14 @@ c save charsize
       ch=chrshght
 c Interpret switch.
       theconsw=consw- 16*(consw/16)
-      icfil=consw/16 - 32*(consw/32)
+      icfil=consw/16 - 2*(consw/32)
       inocont=consw/32-2*(consw/64)
       itri=consw/64 -  2*(consw/128)
 c Second byte
       istep=consw/256-256*(consw/(256*256))
+c Third byte plus switch
+      ifcol=(consw/65536-256*(consw/(256*65536)))*65536 + theconsw
+c      write(*,*)'consw,theconsw,ifcol,icfil',consw,theconsw,ifcol,icfil
       if(nc.eq.0)then
 c Contour level fitting.
 	 call minmax2(z,L,imax,jmax,minz,maxz)
@@ -291,7 +294,7 @@ c this circumlocution to work around an f2c/powerc bug.
 	 else
 	    width=0
 	 endif
-	 call consgen(z,cv,l,imax,jmax,ppath,xc,yc,ic,x,y,theconsw)
+	 call consgen(z,cv,l,imax,jmax,ppath,xc,yc,ic,x,y,ifcol)
     1 continue
       call charsize(cw,ch)
       endif
@@ -303,18 +306,20 @@ c Contour labelling is controlled by the common:
 c common/lablnc/width,str1(*30) giving the label length and string.
 c Calls: Confol, polyline, labeline.
 c*************************************************************************
-      subroutine consgen(z,cv,l,ixmax,iymax,ppath,xc,yc,ic,x,y,consw)
+      subroutine consgen(z,cv,l,ixmax,iymax,ppath,xc,yc,ic,x,y,theconsw)
 c contour searching routine. 9 Aug 92
       real z(l,iymax),cv,x(1),y(1)
       integer l,ixmax,iymax
       character ppath(l,iymax)
       integer ic
       real xc(ic),yc(ic)
-      integer consw
+      integer consw,theconsw
 c Switch determining the type of plot:
 c 	0   Equally spaced arrays. Arguments x and y are not used.
 c	1   Vectors x and y determine the unequally spaced arrays.
 c       2   Arrays x and y determine the arbitrary mesh.
+c If the Third byte of theconsw is non-zero it is the gradcolor by
+c which to fill a contour that is closed without encountering the bdy.
       integer i,j,k,kk,icc,ii,kk1
 c labeling common
       integer width
@@ -325,6 +330,12 @@ c labeling common
       data is/0,1,0,1/ioffs/1,0,0,1/
       data idx/0,1,0,-1,0/
       data idy/-1,0,1,0,-1/
+
+c consw is the lowest byte of the consw
+      consw=theconsw-256*(theconsw/256)
+c fillcolor is the next byte
+      ifcolor=(theconsw/65536-256*(theconsw/(256*65536)))
+c      write(*,*)'theconsw,ifcolor',theconsw,ifcolor
 
 c Search for starting points and call confol.
       icc=ic
@@ -384,6 +395,14 @@ c Found a new starting point.
 		     call confol(z,cv,l,ixmax,iymax,
      $		       i,j,id,ppath,xc,yc,ic)
 		     call mesh2w(xc,yc,ic,x,y,l,consw)
+                     if(ifcolor.ne.0)then
+c                        call getrgbcolor(icol,ired,igreen,iblue)
+                        icol=igetcolor()
+                        call acgradcolor(ifcolor)
+                        call polyline(xc,yc,ic)
+                        call pathfill()
+                        call color(icol)
+                     endif
 		     call labeline(xc,yc,ic,str1,width)
 		     ic=icc
 		  endif
