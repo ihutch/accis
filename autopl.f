@@ -20,7 +20,7 @@ c crude plotting of y versus its index. No dashed line capability.
       real y(n)
       call vecw(1.,y(1),0)
       do 1 i=2,n
-	 call vecw(float(i),y(i),1)
+         call vecw(float(i),y(i),1)
     1 continue
       end
 c********************************************************************

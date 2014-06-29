@@ -6,12 +6,12 @@ c Obsolete version.
 c
 c  To fit a suitable axis range for reasonable scales.
 c  Inputs:
-c	xmin, xmax: range to be fitted.
-c	ntics: (maximum) number of divisions (tics) to fit to it.
+c       xmin, xmax: range to be fitted.
+c       ntics: (maximum) number of divisions (tics) to fit to it.
 c  Outputs:
-c	nxfac: power of ten by which the range is scaled.
-c	xfac: 10**nxfac. World-value=xfac*axis-label.
-c	xtic: Tic-spacing in world units.
+c       nxfac: power of ten by which the range is scaled.
+c       xfac: 10**nxfac. World-value=xfac*axis-label.
+c       xtic: Tic-spacing in world units.
 c       xt1st: The integer multiple of xtic closest to xmin 
 c             lying outside the range (xmin,xmax).
 c       xtlast: The integer multiple of xtic closest to xmax
@@ -28,29 +28,29 @@ c             lying outside the range (xmin,xmax).
       endif
       xfac=10.**nxfac
       if(ntics.le.0)then
-	 write(*,'('' ntics<=0'')')
-	 return
+         write(*,'('' ntics<=0'')')
+         return
       endif
       xtic=span/ntics
       nsfac=nint(log10(0.099999*abs(xtic))+0.500001)
       sfac=10.**nsfac
       xtic=abs(xtic)/sfac
       if(xtic.lt.1.)then
-	 write(*,'('' Fitrange error 1. xtic='',f16.7)')xtic
+         write(*,'('' Fitrange error 1. xtic='',f16.7)')xtic
       elseif(xtic.le.2.)then
-	 xtic=2.
+         xtic=2.
 c A prior version used just .le.3. here which favors xtic=5, but leads
 c to a ratcheting up with successive calls, which is unsatisfactory.
 c Therefore suppose that if we are exactly 4 it is because we did an
 c earlier fitrange.
       elseif(xtic.le.3 .or. (xtic-4.).lt.0.0001)then
-	 xtic=4.
+         xtic=4.
       elseif(xtic.le.5.)then
-	 xtic=5.
+         xtic=5.
       elseif(xtic.le.10.0001)then
-	 xtic=10.
+         xtic=10.
       else
-	 write(*,'('' Fitrange error NAN. Range:'',2g10.4)'),xmin,xmax
+         write(*,'('' Fitrange error NAN. Range:'',2g10.4)'),xmin,xmax
          xtic=1.
          nxfac=0.
          sfac=1.
@@ -74,12 +74,12 @@ c
 c
 c  To fit a suitable axis range for reasonable scales.
 c  Inputs:
-c	xmin, xmax: range to be fitted.
-c	ntics: (maximum) number of divisions (tics) to fit to it.
+c       xmin, xmax: range to be fitted.
+c       ntics: (maximum) number of divisions (tics) to fit to it.
 c  Outputs:
-c	nxfac: power of ten by which the range is scaled.
-c	xfac: 10**nxfac. World-value=xfac*axis-label.
-c	xtic: Tic-spacing in world units.
+c       nxfac: power of ten by which the range is scaled.
+c       xfac: 10**nxfac. World-value=xfac*axis-label.
+c       xtic: Tic-spacing in world units.
 c       xt1st: The integer multiple of xtic closest to xmin 
 c             lying outside the range (xmin,xmax).
 c       xtlast: The integer multiple of xtic closest to xmax
@@ -99,17 +99,17 @@ c             lying outside the range (xmin,xmax).
       endif
       xfac=10.**nxfac
       if(ntics.le.0)then
-	 write(*,'('' ntics<=0'')')
-	 return
+         write(*,'('' ntics<=0'')')
+         return
       endif
       xtic=span/ntics
       nsfac=nint(log10(0.099999*abs(xtic))+0.500001)
       sfac=10.**nsfac
       xtic=abs(xtic)/sfac
       if(xtic.lt.1.)then
-	 write(*,'('' Fitrange error 1. xtic='',f16.7)')xtic
+         write(*,'('' Fitrange error 1. xtic='',f16.7)')xtic
       elseif(.not.xtic.lt.10.0001)then
-	 write(*,'('' Fitrange error NAN. Range:'',2g10.4)'),xmin,xmax
+         write(*,'('' Fitrange error NAN. Range:'',2g10.4)'),xmin,xmax
          xtic=1.
          nxfac=0.
          sfac=1.

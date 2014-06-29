@@ -76,7 +76,7 @@ c            write(*,*)'Calling surf1dr3'
       if(cola.ne.0) call color(cola)
       if(isw.ge.0)then
 c Draw axes.
-	 call axproj(igetcorner())
+         call axproj(igetcorner())
       endif
       end
 c********************************************************************
