@@ -99,8 +99,12 @@ c Set line color. li=15 resets. Plotting translates to dashed etc.
       include 'plotcom.h'
       ncolor=li
 c      write(*,*)' color: updown=',updown
-      call npcolor(li)
-      if(pfsw.ge.0) call scolor(li)
+      if(ncolor.le.15)then
+         call npcolor(li)
+         if(pfsw.ge.0) call scolor(li)
+      else
+         call gradcolor(li-15)
+      endif
       return
       end
 C********************************************************************

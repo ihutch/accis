@@ -652,7 +652,7 @@ FORT_INT *li;
   XSetForeground(accis_display,accis_gc,a_gradPix[(int) ii]);
   return 1;
 }
-/********** Tell the current rgb color ********************************/
+/********** Tell the ipixel rgb color ********************************/
 /* Subroutine */ int getrgbcolor_(ipixel,red,green,blue)
 FORT_INT *ipixel,*red,*green,*blue;
 {

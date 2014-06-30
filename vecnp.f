@@ -290,6 +290,7 @@ c*******************************************************************
 
       character*60 string 
 c      write(*,*)'gradcolor',i
+      ncolor=i+15
       if(pfsw.ge.0) call acgradcolor(i)
       if(abs(pfsw).ne.0)then
          call getrgbcolor(i,ired,igreen,iblue)
