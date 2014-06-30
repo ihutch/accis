@@ -46,7 +46,8 @@ c Convert spaces at the end of string to 0 so it is a C-string termination.
          if(ichar(string(i:i)) .ne. ichar(' ')) goto 2
          string(i:i)=char(0)
  1    continue
- 2    end
+ 2    continue
+      end
 c********************************************************************
       integer function istpos(str,ilmin,ilmax,ch)
 c Return the first position of character ch in string str,

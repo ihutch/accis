@@ -1,4 +1,5 @@
 # Makefile for accis routines.
+G90=gfortran
 
 # These defaults generally set in ./configure, but we allow null configure.
 #Default compiler
@@ -18,6 +19,11 @@ endif
 ACCISDRV=accisX
 ifeq ("$(VECX)","vec4014")
     ACCISDRV=accis
+endif
+
+WSWITCHES=-Wall
+ifeq ("$(G77)","gfortran")
+	WSWITCHES=-Wall -Wno-conversion
 endif
 
 standard_object_files= \
@@ -48,12 +54,12 @@ sysfont.o\
 slicing.o\
 fillgrad.o\
 boxcarave.o\
-surfaces.o\
-arrowplot.o
+surfaces.o
 
 noback_object_files = drwstr.o fontdata.o vecnp.o 
 
 object_files=$(standard_object_files) $(noback_object_files)
+root_files=$(patsubst %.o,%,$(object_files))
 
 ifeq ("$(VECX)","vec4014")
 	libraries = -L.
@@ -72,7 +78,6 @@ headers= hidcom.h plotcom.h world3.h
 
 #The real makefile
 MAKEFILE=makefile
-WSWITCHES=-Wall
 
 #######################################################################
 # Start of targets
@@ -135,14 +140,20 @@ vecglx.o : vecglx.c
 $(noback_object_files) : drwstr.f fontdata.f vecnp.f $(headers) $(MAKEFILE)
 	$(G77) -c $(NOBACKSLASH) $(WSWITCHES) $*.f
 
+# Specific test programs of one sort and another should be put here 
+# only if they need special switches.
+testing/plottest90 : testing/plottest90.f90 interface.f90
+	$(G90) $(WSWITCHES) -o testing/plottest90 testing/plottest90.f90  -l$(ACCISDRV) $(libraries)
+
 #pattern rule, compile using the external definitions of commons
 %.o : %.f ;
 	$(G77) -c $(WSWITCHES) $*.f
 
-# Specific test programs of one sort and another should be put here 
-# only if they need special switches.
+# For fortran 90 executables.
+% : %.f90 lib$(ACCISDRV).a $(VECX)
+	$(G90) $(WSWITCHES) -o $* $*.f90  -l$(ACCISDRV) $(libraries)
 
-# The main executable pattern.
+# The main f77 executable pattern.
 % : %.f lib$(ACCISDRV).a $(VECX)
 	$(G77) $(WSWITCHES) -o $* $*.f  -l$(ACCISDRV) $(libraries)
 
@@ -165,6 +176,25 @@ vecglx : libaccis.a vecglx.o
 
 vec4014 : libaccis.a
 	date >vec4014
+
+# Fortran 90 interface
+convert : convert.f95
+# Really convert.f is a f90 program. But named so not accidentally removed.
+	$(G90) -o convert convert.f95
+	@rm *.mod
+
+# There are major with Metcalf's automatic converter and parameters that
+# define dimensions. Parameters are not included. So the interfaces that it
+# generates are broken. I've hacked the code to include them.
+
+interface.f90 : convert
+	@echo "! Interfaces to accis routines generated from fortran code">interface.f90
+	@echo making interface.f90, using convert code.
+	@for file in $(root_files); do echo $${file} 0 0 t t | ./convert>/dev/null; done
+	@for file in $(root_files); do sed -i $${file}.f90 -e"/BLOCKDATA/,/BLOCKDATA/d" ; done
+	@for file in $(root_files); do echo "! $${file}.f">>interface.f90; cat $${file}.f90>>interface.f90; echo " ">>interface.f90; done
+# If you wish to keep individual interfaces. Comment the following out.
+	@for file in $(root_files); do rm $${file}.f90; done 
 
 # Synchronization of versions.
 sync : syncsource synccoptic syncsceptic
@@ -197,6 +227,7 @@ mproper : clean
 	rm -f *.a *~ eye.dat sync*
 	rm -f makefile
 	rm -f vecx vecglx vec4014
+	rm -f convert interface.f90
 
 clean : cleantest
 	rm -f *.o

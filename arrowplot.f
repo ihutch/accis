@@ -113,7 +113,7 @@ c Feather size parallel, perp, frac of length (2).
 c If barbperp is negative, read two additional parameters at the end.
 c nangle (1) the number of barbs. isw a further switch.
 c 
-
+      integer ngp
       parameter (ibx=1,iby=2,ibz=3,ipx=4,ipy=5,ipz=6,ibba=7,ibbe=8,
      $     ifa=9,ife=10,ina=11,isw=12,ngp=isw)
       integer nanglemax
