@@ -117,7 +117,7 @@ c             lying outside the range (xmin,xmax).
       else
 c Choose the increment
          iret=0
- 201     fspan=1.e30
+ 201     fspan=1.e31
          ichoice=0
          do i=1,npos
             xt=incpos(i)*sfac
