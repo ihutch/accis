@@ -70,6 +70,10 @@ C********************************************************************
       subroutine pltend()
 c Wait for return, then switch to text mode
       include 'plotcom.h'
+      if(vmode.eq.111)then
+         write(*,*)'Error. accis pltend called prior to initialization'
+         return
+      endif
       call prtend()
       call truncf(0.,0.,0.,0.)
       if(pfsw.ge.0)call txtmode
