@@ -71,7 +71,7 @@ C********************************************************************
 c Wait for return, then switch to text mode
       include 'plotcom.h'
       if(vmode.eq.111)then
-         write(*,*)'Error. accis pltend called prior to initialization'
+         write(*,*)'Abnormal accis pltend called prior to pltinit.'
          return
       endif
       call prtend()
