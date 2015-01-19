@@ -32,7 +32,41 @@
 <h3 align="center">I.H.Hutchinson </h3>
 
 <h3 align="center"> </h3>
-   <a id="tth_sEc1"></a><h2>
+  
+<h1>Contents </h1><a href="#tth_sEc1"
+>1&nbsp; Apologia</a><br />
+<a href="#tth_sEc2"
+>2&nbsp; Conventions</a><br />
+<a href="#tth_sEc3"
+>3&nbsp; Automatic plotting, single call plots.</a><br />
+<a href="#tth_sEc4"
+>4&nbsp; Setup</a><br />
+<a href="#tth_sEc5"
+>5&nbsp; Data plotting</a><br />
+<a href="#tth_sEc6"
+>6&nbsp; Color</a><br />
+<a href="#tth_sEc7"
+>7&nbsp; Axes</a><br />
+<a href="#tth_sEc8"
+>8&nbsp; Text plotting</a><br />
+<a href="#tth_sEc9"
+>9&nbsp; Contouring</a><br />
+<a href="#tth_sEc10"
+>10&nbsp; Projected 3-D surface routines</a><br />
+<a href="#tth_sEc11"
+>11&nbsp; Three-Dimensional Perspective Drawing</a><br />
+<a href="#tth_sEc12"
+>12&nbsp; Plotting volumetric 3-D Data</a><br />
+<a href="#tth_sEc13"
+>13&nbsp; Primitives</a><br />
+<a href="#tth_sEc14"
+>14&nbsp; Utilities</a><br />
+<a href="#tth_sEc15"
+>15&nbsp; Linking</a><br />
+
+
+<div class="p"><!----></div>
+ <a id="tth_sEc1"></a><h2>
 1&nbsp;&nbsp;Apologia</h2>
 
 <div class="p"><!----></div>
@@ -48,6 +82,10 @@ It is powerful. For example, it has interactive routines for
 displaying selectable slices of 3-D data, rotating the views of
 surfaces, projecting 2-D contours, and producing smoothly coloured
 contours.
+
+<div class="p"><!----></div>
+It also produces publication-quality vector-drawn postscript output,
+including text and mathematical symbols.
 
 <div class="p"><!----></div>
 It observes what ought to be a standard principle of scientific
@@ -230,6 +268,11 @@ POLYERRS(xv,yv,errv,ilength,u,d) Draw error bars from yv-d*errv to
 yv+u*errv for all the xv, yv, errv arrays.
 
 <div class="p"><!----></div>
+POLYBOX(xv,yv,ilength) Draw the outline of a histogram of boxes whose
+(touching) boundaries are at xv(0:ilength) and whose heights are
+yv(ilength). Ends have y=0. Notice that there is one more xv than yv!
+
+<div class="p"><!----></div>
 STPOLYLINE(xa,ya,ilength,ixstride,iystride),
 
 <div class="p"><!----></div>
@@ -365,7 +408,7 @@ TICNUMSET(itics) Set the number of tics of axis (approximately).
 <img align="right" src="fontshow.png"> 
 
 <div class="p"><!----></div>
-Special text is accessed via "\" or "!" followed by one of 
+Special text is accessed via "!" followed by one of 
 the following:
 
 <pre>
@@ -819,5 +862,5 @@ for operation of debugged correct code.
 T<sub><span class="small">E</span></sub>X
 by <a href="http://hutchinson.belmont.ma.us/tth/">
 T<sub><span class="small">T</span></sub>H</a>,
-version 4.06.<br />On  4 Jan 2015, 18:26.</small>
+version 4.06.<br />On 19 Jan 2015, 12:39.</small>
 </html>

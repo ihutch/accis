@@ -43,16 +43,18 @@ c Absolute form
       ply=pldy
       if(abs(pfsw).eq.2.or.abs(pfsw).eq.3)then
 c Postscript section
+         if(ud.eq.1)then
+c Update bounding box with present, if pen down.
+            call bxupdate(pldx,pldy)
+         endif
          if(updown.ne.ud)then
 c Pen state changed.
             if(ud.ne.1.and.updown.ne.99)then
-c Unless lowered(1) or disabled(99), stroke and update stroke end.
+c Unless lowered(1) or disabled(99), stroke.
                call abufwrt(endpair,ne,ipsunit)
+            elseif(ud.eq.1)then
+c Recognize prior as path start.
                call bxupdate(ppx,ppy)
-            endif
-            if(ud.eq.1)then
-c Start of stroke. Update box with present.
-               call bxupdate(pldx,pldy)
             endif
             updown=ud
          endif
@@ -285,8 +287,8 @@ c*********************************************************************/
 c      write(*,*)'Inside flushb',iunit
       if(sblen.gt.1)write(iunit,*)sbuf(1:sblen-1)
       write(iunit,*)postlude
+c If ps, write the trailer with BoundingBox having 2 pt margin.
       if(abs(pfsw).eq.3)then
-c         write(*,*)'bx...',bxllx,bxlly,bxurx,bxury
          write(iunit,'(a)')'%%Trailer'
          write(iunit,101)
      $         (bxllx*4+426*5)*72/1016/5-2
@@ -294,6 +296,13 @@ c         write(*,*)'bx...',bxllx,bxlly,bxurx,bxury
      $        ,(bxurx*4+426*5)*72/1016/5+2
      $        ,(bxury*4+426*5)*72/1016/5+2
  101     format('%%BoundingBox: ',4i6)
+      elseif(abs(pfsw).eq.2)then
+         write(iunit,'(a)')'%%Trailer'
+         write(iunit,101)
+     $        (-bxury+8426)*72/1016-2
+     $        ,(bxllx+426)*72/1016-2
+     $        ,(-bxlly+8426)*72/1016+2
+     $        ,(bxurx+426)*72/1016+2
       endif
       endfile(iunit)
       close(iunit)
@@ -697,11 +706,10 @@ c      save ca
       data ca(01744:01745)/crlf/
 
          if(abs(pfsw).eq.3)then
-            ca(00026:00053)='%%BoundingBox: 30 30 620 480'
+c            ca(00026:00053)='%%BoundingBox: 30 30 620 480'
             ca(00026:00053)='%%BoundingBox: (atend)      '
          elseif(abs(pfsw).eq.2)then
-            ca(00026:00053)='%%BoundingBox: 28 28 575 762'
-         elseif(abs(pfsw).eq.6)then
+c            ca(00026:00053)='%%BoundingBox: 28 28 575 762'
             ca(00026:00053)='%%BoundingBox: (atend)      '
          endif
       call lnswrt(iunit,ca,1745,'\',2)
@@ -719,7 +727,7 @@ c Obtain the length of a string omitting trailing blanks.
       end
 c******************************************************************
       subroutine bxupdate(px,py)
-c Update the bounding box corner according to the point values px,py
+c Update the bounding box corner according to the values px,py
       integer px,py
       include 'npcom.f'
 c      write(*,*)'bxupdate',px,py
