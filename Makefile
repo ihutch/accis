@@ -181,7 +181,7 @@ convert : convert.f95
 	$(G90) -o convert convert.f95
 	@rm *.mod
 
-# There are major with Metcalf's automatic converter and parameters that
+# There are problems with Metcalf's automatic converter and parameters that
 # define dimensions. Parameters are not included. So the interfaces that it
 # generates are broken. I've hacked the code to include them.
 
