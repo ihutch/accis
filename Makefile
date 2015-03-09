@@ -130,7 +130,7 @@ vecx.o : vecx.c $(MAKEFILE)
 	$(CC)  $(THREADING) -c vecx.c
 
 vecglx.o : vecglx.c
-	$(CC) -c $(WSWITCHES) vecglx.c
+	$(CC) -c $(WSWITCHES) $(THREADING) vecglx.c
 
 # The file drwstr.f must be compiled with this switch which disables
 # for gnu compilers the interpretation of backslashes as escapes.
@@ -234,3 +234,5 @@ clean : cleantest
 	rm -f *.ida
 	rm -f plot*.ps plot*.pg*
 
+help :
+	@echo Targets: mproper clean cleantest tests interface.f90 sync
