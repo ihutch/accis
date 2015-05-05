@@ -318,7 +318,7 @@ c Switch determining the type of plot:
 c       0   Equally spaced arrays. Arguments x and y are not used.
 c       1   Vectors x and y determine the unequally spaced arrays.
 c       2   Arrays x and y determine the arbitrary mesh.
-c If the Third byte of theconsw is non-zero it is the gradcolor by
+c If the Third byte of theconsw is non-zero it is the color by
 c which to fill a contour that is closed without encountering the bdy.
       integer i,j,k,kk,icc,ii,kk1
 c labeling common
@@ -368,6 +368,9 @@ c Found a new starting point.
                         call confol(z,cv,l,ixmax,iymax,
      $                    i,j,id,ppath,xc,yc,ic)
                         call mesh2w(xc,yc,ic,x,y,l,consw)
+c                           do kc=1,ic
+c                              write(*,*)kc,xc(kc),yc(kc)
+c                           enddo
                         if(ifcolor.ne.0)then
                            if(xc(1).eq.xc(ic).or.yc(1).eq.yc(ic))then
 c                           write(*,*)'Filling ifcolor',ifcolor,ic,cv
