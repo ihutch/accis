@@ -380,6 +380,8 @@ c     $                          ,yc(ic)
 c                           call acgradcolor(ifcolor)
                            call color(ifcolor)
                            call polyline(xc,yc,ic)
+c                           write(*,'(i4,2f10.4)')(kc,xc(kc),yc(kc),kc=1
+c     $                          ,ic)
                            call pathfill()
                            call color(icol)
                            endif

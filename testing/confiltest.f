@@ -79,7 +79,7 @@ c The switch in contourl is
 c      ifcolor=(theconsw/65536-256*(theconsw/(256*65536)))
        call pfset(3)
        call pltinit(x(1,1),x(nx,1),y(1,1),y(1,ny))
-       do i=1,snl
+       do i=4,4
           isw=2+i*65536
           call contourl(z,ppath,nx,nx,ny,cl(i),1,x,y,isw)
        enddo
