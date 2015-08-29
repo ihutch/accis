@@ -56,7 +56,7 @@ c Local variables:
       data iclipping/0/jsw/0/
 c Tell that we are looking from the top by default.
       data ze1/1./icontour/1/iweb/1/
-      save n1
+c      save n1
 
       if(idfix.lt.0)then
          laspect=.false.
@@ -83,8 +83,9 @@ c red orange white
 c      call accisgradinit(0,-32000,-65000,150000,97000,65500)
 c Better one that gives a good mono gradient too:
       call blueredgreenwhite()
+c This gave a problem. The save is now not necessary I think.
+         n1=(iuds(idfix)+1)/2
       if(lfirst)then
-         n1=iuds(idfix)/2
 c     Plot the surface. With scaling 1. Web color 6, axis color 7.
          jsw=1 + 256*6 + 256*256*7
          iweb=1
