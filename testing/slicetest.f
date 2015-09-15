@@ -13,6 +13,7 @@
 
 
 c      call setconlog(.true.)
+c      call pfset(3)
 
       range=10.
       amp=1.
