@@ -98,7 +98,7 @@ c Arrowplot call, on contour plot in position 1, tell slice.
       call noeye3d(0)
       do i=1,50
          if(i.eq.49)call noeye3d(9999)
-        ifix=4+16*1+64
+         ifix=4+16*1+64
          call sliceGweb(ifull,iuds,u,Li,zp, ixnp,xn,ifix,'potential:'/
      $        /'!Ay!@' ,gradu,vp)
       enddo
