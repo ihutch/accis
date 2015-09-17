@@ -524,14 +524,14 @@ int eye3d_(value)
   if(accis_eye3d != 9999){
     if(XPending(accis_display)){
       XPeekEvent(accis_display,&event);
-      if(event.type==KeyPress){
+      if(event.type==KeyPress){ /* Halt continuous running on keypress */
 	*value=(int)XLookupKeysym(&(event.xkey),0);
 	accis_eye3d=9999;
+      }else{ /* Discard other events */
+	XNextEvent(accis_display,&event);
       }
-      if(accis_eye3d!=9999) {*value=0;return 0;}
-    }else{
-      *value=accis_eye3d; return 0; 
     }
+    if(accis_eye3d!=9999) {*value=accis_eye3d;return 0;}
   }
   ACCIS_SET_FOCUS;
   do{
