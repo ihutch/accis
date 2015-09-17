@@ -528,6 +528,7 @@ int eye3d_(value)
 	*value=(int)XLookupKeysym(&(event.xkey),0);
 	accis_eye3d=9999;
       }
+      if(accis_eye3d!=9999) {*value=0;return 0;}
     }else{
       *value=accis_eye3d; return 0; 
     }

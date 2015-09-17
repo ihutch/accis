@@ -617,14 +617,17 @@ int eye3d_(value)
 	*value=(int)XLookupKeysym(&(event.xkey),0);
 	accis_eye3d=9999;
       }
+      if(accis_eye3d!=9999) {*value=0;return 0;}
     }else{
+      /* fprintf(stdout,"Escape accis_eye3 in eye3d= %d\n",accis_eye3d); */
       *value=accis_eye3d; return 0; 
     }
   }
+  /* fprintf(stdout,"Second accis_eye3 in eye3d= %d\n",accis_eye3d); */
   ACCIS_SET_FOCUS;
   do{
     XNextEvent(accis_display,&event);
-/*     printf("First loop:The event type: %d, %d\n",event.type,ButtonPress); */
+     /* printf("First loop:The event type: %d, %d\n",event.type,ButtonPress); */
     switch(event.type) {
     case Expose: EXPOSE_ACTION; break;
     case ButtonPress: accis_butdown(&event); break;

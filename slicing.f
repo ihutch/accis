@@ -43,15 +43,16 @@ c Contour levels
 c Local variables:
       integer icontour,iweb
       integer jsw
-      integer iclipping,idflast
+      integer iclipping,idflast,idfinlast
       integer idpa(2)
       character*(10) cxlab,cylab
       character*(30) form1
-      save nf1,nf2,nff,if1,if2,iff
+      save nf1,nf2,nff,if1,if2,iff,idfix
       logical laspect,larrow,ltellslice
       data laspect/.true./larrow/.false./
       data ltellslice/.false./
-      data iclipping/0/idflast/0/jsw/0/n1/0/icontour/1/iweb/1/
+      data iclipping/0/idflast/-9999/jsw/0/n1/0/icontour/1/iweb/1/
+      data idfinlast/-9999/
 c Tell that we are looking from the top by default.
       data ze1/1./
 
@@ -62,6 +63,7 @@ c Bit 2 (4)  toggle (on) plotting of svec arrows.
 c Bit 3 (8)  reinitialize.
 c Bits 4,5 (16xicontour)  set the initial icontour number 0...3
 c Bit 6 (64)  Toggle ltellslice 
+c Bit 7 (128) Return continuously. (Equivalent of d-control).
 
       idfixf=abs(idfixin)/4
 c Sign
@@ -71,8 +73,11 @@ c Sign
       idfix=abs(idfixin)-4*(idfixf)
       if(idfix.eq.0)then
 c Bits 0,1 set direction, or reinitialize and use default ndims.
-         idflast=0
-         idfix=ndims
+         if(idflast.eq.-9999)then
+            idfix=ndims
+         else
+            idfix=idflast
+         endif
       endif
       if(idfixf-2*(idfixf/2).ne.0)then
 c Bit 2 Toggle on svec 
@@ -82,7 +87,7 @@ c         write(*,*)'idfix=',idfix,'  larrow=',larrow
       idfixf=idfixf/2
       if(idfixf-2*(idfixf/2).ne.0)then 
 c Bit 3=1 reinitialize:
-         idflast=0
+         idfinlast=-9999
       endif
       idfixf=idfixf/2
 c Bits 4,5 set icontour
@@ -91,7 +96,7 @@ c Bits 4,5 set icontour
       if(idfixf-2*(idfixf/2).ne.0)ltellslice=.not.ltellslice
       ips=0
       irotating=0
-      if(.not.idflast.eq.idfixin)then
+      if(.not.idfinlast.eq.idfixin)then
 c Initialize
          n1=(iuds(idfix)+1)/2
 c     Plot the surface. With scaling 1. Web color 6, axis color 7.
@@ -100,7 +105,8 @@ c     Plot the surface. With scaling 1. Web color 6, axis color 7.
          iweb=1
          iclipping=0
          write(*,*)' ======== Slice plotting interface. Hit h for help.'
-         idflast=idfixin
+         idfinlast=idfixin
+         idflast=idfix
       endif
 c Start of controlled plotting loop.
  21   call pltinit(0.,1.,0.,1.)
