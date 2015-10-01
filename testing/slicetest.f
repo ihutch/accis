@@ -90,14 +90,12 @@ c      iuds(3)=iuds(3)-1
       ifixpt(3)=10
       ifix=0
 c How to turn off pausing:
-c      call noeye3d(0)
-c Default call (no contouring, no slice reporting)
-c      call sliceGweb(ifull,iuds,u,Li,zp,
-c     $     ixnp,xn,ifix,'potential:'//'!Ay!@',dum,dum)
-c Arrowplot call, on contour plot in position 1, tell slice.
       call noeye3d(0)
-      do i=1,50
-         if(i.eq.49)call noeye3d(9999)
+      ntimes=5
+      do i=1,ntimes
+c And turn it on again.
+         if(i.eq.ntimes)call noeye3d(9999)
+c Arrowplot call, on contour plot in position 1, tell slice.
          ifix=4+16*1+64
          call sliceGweb(ifull,iuds,u,Li,zp, ixnp,xn,ifix,'potential:'/
      $        /'!Ay!@' ,gradu,vp)
@@ -107,7 +105,7 @@ c Arrowplot call, on contour plot in position 1, tell slice.
 c      call sliceGcont(ifull,iuds,u,Li,zp,
 c     $        ixnp,xn,ifixpt,'potential:'//'!Ay!@',dum,dum)
 
-      ifixpt(1)=-iuds(1)/2
+c      ifixpt(1)=-iuds(1)/2
          call sliceGcont(ifull,iuds,u,Li,zp, ixnp,xn,ifixpt,'potential:'
      $        //'!Ay!@' ,gradu,vp)
 

@@ -31,7 +31,9 @@ c optional vector argument on the same array of positions as u.
       real vp(nw,nw,2)
 c These arguments ought to be present at least as dummy reals for all
 c calls; otherwise the length of the utitle will not be found correctly.
-c Do arrow plots of this field over contours Needed for perspective plot
+c Do arrow plots of this field over contours.
+
+c Needed for perspective plot
       include 'world3.h'
 c For testing only
       include 'plotcom.h'
@@ -319,12 +321,12 @@ c Change fixed dimension, remove clipping, force scaling.
       if(isw.eq.65361)then
          idfix=mod(idfix+1,3)+1
          iclipping=0
-         n1=iuds(idfix)/2
+         n1=(iuds(idfix)+1)/2
          jsw=1 + 256*6 + 256*256*7
       elseif(isw.eq.65363)then
          idfix=mod(idfix,3)+1
          iclipping=0
-         n1=iuds(idfix)/2
+         n1=(iuds(idfix)+1)/2
          jsw=1 + 256*6 + 256*256*7
       endif
 c Adjust clipping
@@ -456,9 +458,9 @@ c      data jsw/1+256*6+256*256*7/
          larrow=.not.larrow
          ifixpt(1)=-ifixpt(1)
       endif
-      if(ifixpt(1).eq.0)ifixpt(1)=iuds(1)/2
-      if(ifixpt(2).eq.0)ifixpt(2)=iuds(2)/2
-      if(ifixpt(3).eq.0)ifixpt(3)=iuds(3)/2
+      if(ifixpt(1).eq.0)ifixpt(1)=(iuds(1)+1)/2
+      if(ifixpt(2).eq.0)ifixpt(2)=(iuds(2)+1)/2
+      if(ifixpt(3).eq.0)ifixpt(3)=(iuds(3)+1)/2
       ips=0
       irotating=0
       call minmax2(u(1,1,ifixpt(3)),ifull(1),iuds(1),iuds(2),umin,umax)
