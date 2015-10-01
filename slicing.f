@@ -195,7 +195,6 @@ c         if(iclipping.ne.0)
          if(idfixin/256 -512*(idfixin/512).ne.0)then
 c This call does no internal initial z-scale setting and scale3 ought to
 c have been called in the external program:
-            write(*,*)'idfixin',idfixin
             call hidweb(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),
      $           zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,jsw+8)
          else
