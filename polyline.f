@@ -163,12 +163,12 @@ c 'Dots with long/short breaks'.
 c 'Short, dot '.
          dashlen(1)=.01
          dashlen(2)=.01
-         dashlen(3)=.01
-         dashlen(4)=.002
+         dashlen(3)=.003
+         dashlen(4)=.01
       elseif(i.eq.15)then
 c 'Short short break'.
          dashlen(1)=.01
-         dashlen(2)=.005
+         dashlen(2)=.006
          dashlen(3)=.01
          dashlen(4)=.02
       endif
