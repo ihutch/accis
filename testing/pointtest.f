@@ -27,3 +27,4 @@ c Test the accis point plotting ability
 ! Tests show glx driver takes 1.0 sec for 100,000 points. 9.6s for 1M.
 !            vecx driver 0.6s 100k, 5.5s 1M.  Both for 10 plots.
 ! Thus we are drawing about 2M points per second.
+! That is so fast as not to be worth playing around in X to fix. 

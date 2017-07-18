@@ -418,13 +418,11 @@ c***************************************************************************
       return
       end
 c**************************************************************************
-      subroutine scatterxy(x,y,n)
-c Do a scatter plot of points x,y.
-      integer n
+      subroutine scatterxy(x,y,n,istrd)
+c Do a scatter plot of points x,y vectors with stride istrd.
+      integer n,istrd
       real x(n),y(n)
-      do i=1,n
-         x(i)=(i-1.)/(npts-1.)+v*kk
-         y(i)=sin(10.*(x(i)-v*kk))*exp(-x(i))+.2*j/ny
-         call vecw(x(i),y(i),-1)
+      do i=0,n-1
+         call vecw(x(1+i*istrd),y(1+i*istrd),-1)
       enddo
       end
