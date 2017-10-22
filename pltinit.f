@@ -1,3 +1,7 @@
+c In mingw the block data do not seem to be included by the expedient
+c of doing an external. Instead they seem to need specific inclusion.
+      include 'initiald.f'
+
       subroutine accisinit()
       call pltinit(0.,1.,0.,1.)
       end
