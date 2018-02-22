@@ -216,6 +216,8 @@ c This is the standard call that normally does internal scaling:
      $           zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,jsw)
          endif
       endif
+      call color(7)
+
 c Use this scaling until explicitly reset.
       jsw=0 + 256*6 + 256*256*7
       
@@ -229,9 +231,9 @@ c Use this scaling until explicitly reset.
 c Projected contouring.
       if(icontour.ne.0)then
 c       Draw a contour plot in perspective. Need to reset color anyway.
-         call color(4)
          call axregion(-scbx3,scbx3,-scby3,scby3)
          call scalewn(xmin,xmax,ymin,ymax,.false.,.false.)
+         call color(7)
 c Calculate place of plane. 
          zplane=scbz3*(-1+(xn(ixnp(idfix)+n1)-zmin)*2./(zmax-zmin))
          if(iweb.eq.0)then
@@ -276,7 +278,6 @@ c Contour with coloring, using vector axes, maybe without labelling.
          call axis2()
          if(iweb.ne.1)call cubed(igetcubecorner())
       endif
-
       if(iweb.eq.1.and.icontour.eq.3)then
          call hidweb(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),
      $        zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,jsw)

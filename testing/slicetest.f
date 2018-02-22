@@ -111,6 +111,6 @@ c     $        ixnp,xn,ifixpt,'potential:'//'!Ay!@',dum,dum)
 
 c      ifixpt(1)=-iuds(1)/2
          call sliceGcont(ifull,iuds,u,Li,zp,ixnp,xn,ifixpt,'potential:'
-     $        //'!Ay!@',gradu,vp)
+     $        //'!Ay!@',gradu,vp) 
 
       end
