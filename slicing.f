@@ -230,6 +230,7 @@ c Use this scaling until explicitly reset.
 
 c Projected contouring.
       if(icontour.ne.0)then
+         if(iweb.ne.1)call cubed(igetcubecorner())
 c       Draw a contour plot in perspective. Need to reset color anyway.
          call axregion(-scbx3,scbx3,-scby3,scby3)
          call scalewn(xmin,xmax,ymin,ymax,.false.,.false.)
@@ -276,7 +277,6 @@ c Contour with coloring, using vector axes, maybe without labelling.
          call axis()
          call ticlabtog()
          call axis2()
-         if(iweb.ne.1)call cubed(igetcubecorner())
       endif
       if(iweb.eq.1.and.icontour.eq.3)then
          call hidweb(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),
