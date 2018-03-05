@@ -295,6 +295,7 @@ c we need an immediate turn off of the pfsw. This is fixed by calling
 c pfset before pltend. On entry, pltend sees pfsw as negative, so does
 c not pause. The last thing pltend does is set the pfsw from
 c the pfnextsw set by pfset to zero.
+         call pfset(0)
          call prtend(' ')
          write(*,*)'Terminating sliceweb ips=',ips,pfsw
          ips=0
@@ -739,12 +740,11 @@ c 4. Draw planes at level 4 (front box).
 c 5. Draw line only in places in front of all 3 planes. 
 
       if(ips.ne.0)then
-c We called for a local print of plot. Terminate and switch it off.
+c We called for a local print of plot. Switch it off, and terminate
 c Prevent pltend from querying the interface.
          write(*,*)'Terminating sliceGweb. ips=',ips
 c         pfsw=-ips
-c         call pfset(0)
-c         call pltend()
+         call pfset(0)
          call prtend(' ')
          ips=0
       endif
