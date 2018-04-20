@@ -70,7 +70,9 @@ c Bit 6 (64)  Toggle ltellslice
 c Bit 7 (128) Return continuously. (Equivalent of d-control).
 c Bit 8 (256) Do no internal scaling initially. 
 c Bit 9 (512) Turn off contour labelling.
+c Bit 10 (1024) Do surface rather than web.
 
+      ihibyte=idfixin/256
       if(idfixin/512-1024*(idfixin/1024).ne.0)then
 c kluge because higher bits break something I don't understand
          iclsign=-1.
@@ -205,6 +207,7 @@ c Old buggy setting, only works for centered cube.
 c Rescale x and y (if necessary), but not z.
 c         if(iclipping.ne.0)
          call scale3(xmin,xmax,ymin,ymax,wz3min,wz3max)
+         if(iweb.lt.2)then
          if(idfixin/256 -512*(idfixin/512).ne.0)then
 c This call does no internal initial z-scale setting and scale3 ought to
 c have been called in the external program:
@@ -215,22 +218,30 @@ c This is the standard call that normally does internal scaling:
             call hidweb(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),
      $           zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,jsw)
          endif
-      endif
-      call color(7)
-
+         call color(7)
 c Use this scaling until explicitly reset.
-      jsw=0 + 256*6 + 256*256*7
+         jsw=0 + 256*6 + 256*256*7
+         else
+            isw=1
+            call surf3d(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2)
+     $           ,zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,isw,pp)
+            call color(7)
+            call axproj(igetcorner())
+         endif
+      endif
       
       write(form1,'(''Dimension '',i1,'' Plane'',i4)')idfix,n1
       if(ltellslice)call drwstr(.1,.02,form1)
-      call iwrite(idp1,iwidth,cxlab)
-      call iwrite(idp2,iwidth,cylab)
-
-      call ax3labels('axis-'//cxlab,'axis-'//cylab,utitle)
+      call termchar(ax3chars(idp1))
+      call termchar(ax3chars(idp2))
+      call ax3labels(ax3chars(idp1),ax3chars(idp2),utitle)
+!      call iwrite(idp1,iwidth,cxlab)
+!      call iwrite(idp2,iwidth,cylab)
+!      call ax3labels('axis-'//cxlab,'axis-'//cylab,utitle)
 
 c Projected contouring.
       if(icontour.ne.0)then
-         if(iweb.ne.1)call cubed(igetcubecorner())
+         if(iweb.eq.0)call cubed(igetcubecorner())
 c       Draw a contour plot in perspective. Need to reset color anyway.
          call axregion(-scbx3,scbx3,-scby3,scby3)
          call scalewn(xmin,xmax,ymin,ymax,.false.,.false.)
@@ -259,9 +270,11 @@ c Get back current eye position xe1 etc.
          if(icontour.eq.3)call hdprset(-3,-sign(scbz3,ze1))
 c Contour with coloring, using vector axes, maybe without labelling.
          iclhere=iclsign*icl
+         icsw=17
+         if(iweb.gt.1)icsw=icsw-16 
          call contourl(zp(if1,if2),pp,nw,
      $        nf1+1-if1,nf2+1-if2,cl,iclhere,
-     $        xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),17)
+     $        xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),icsw)
          Erange=0.
          iasw=9
          if(igradleg.eq.1)then
@@ -323,8 +336,8 @@ c icontour and iweb determine the plotting of the contours and web.
 c idp1, idp2 are the the two other dimensions than idfix. 
 c jsw is to do with contouring. laspect preserves aspect-ratio.
 c iquit is returned as non-zero to command an end to the display.
-
       integer iuds(3)
+      include 'world3.h'
 
       logical laspect,ltellslice
 c 3d display user interface.
@@ -345,6 +358,9 @@ c      write(*,*)'isw',isw
       if(isw.eq.ichar('s')) jsw=1 + 256*6 + 256*256*7
       if(isw.eq.ichar('t')) call togi3trunc()
       if(isw.eq.ichar('g')) igradleg=mod(igradleg+1,3)
+      if(isw.eq.ichar('1')) read(*,*)ax3chars(1)
+      if(isw.eq.ichar('2')) read(*,*)ax3chars(2)
+      if(isw.eq.ichar('3')) read(*,*)ax3chars(3)
       if(isw.eq.ichar('p'))then
          call pfset(3)
          ips=3
@@ -396,7 +412,7 @@ c ;
          if1=min(if1+1,nf1-1)
       endif
       if(isw.eq.ichar('c'))icontour=mod(icontour+1,4)
-      if(isw.eq.ichar('w'))iweb=mod(iweb+1,2)
+      if(isw.eq.ichar('w'))iweb=mod(iweb+1,3)
       if(isw.eq.ichar('h'))then
          write(*,*)' ======== Slice plotting interface:',
      $        '  arrows up/down: change slice.'
@@ -405,13 +421,15 @@ c ;
      $        ' s: rescale. p: print. Drag mouse to rotate.'
          write(*,*)' (jkl;) (m,./): control plotting extent in 2 axes.'
          write(*,*)
-     $        ' c: contour plane position. w: toggle web.'
+     $        ' c: contour plane position. w: web, solid, none'
      $        ,' a: aspect'
      $        ,' t: truncation.'
          write(*,*)' u: slice-telling; g: contour gradlegend;'
          write(*,*)
      $        ' d: disable interface; run continuously.',
      $        ' depress f: to interrupt running.'
+         write(*,*)' 1, 2, 3: Enter new label for axis 1,2,3'
+     $        ,' (type in terminal window)'
       endif
       call rotatezoom(isw)
 c End of user interface.
