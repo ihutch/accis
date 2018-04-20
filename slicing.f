@@ -208,21 +208,22 @@ c Rescale x and y (if necessary), but not z.
 c         if(iclipping.ne.0)
          call scale3(xmin,xmax,ymin,ymax,wz3min,wz3max)
          if(iweb.lt.2)then
-         if(idfixin/256 -512*(idfixin/512).ne.0)then
+            if(idfixin/256 -512*(idfixin/512).ne.0)then
 c This call does no internal initial z-scale setting and scale3 ought to
 c have been called in the external program:
-            call hidweb(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),
-     $           zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,jsw+8)
-         else
+               call hidweb(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),
+     $              zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,jsw+8)
+            else
 c This is the standard call that normally does internal scaling:
-            call hidweb(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),
-     $           zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,jsw)
-         endif
-         call color(7)
+               call hidweb(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),
+     $              zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,jsw)
+            endif
+            call color(7)
 c Use this scaling until explicitly reset.
-         jsw=0 + 256*6 + 256*256*7
+            jsw=0 + 256*6 + 256*256*7
          else
             isw=1
+            if(iweb.eq.3)isw=isw+16
             call surf3d(xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2)
      $           ,zp(if1,if2),nw,nf1+1-if1,nf2+1-if2,isw,pp)
             call color(7)
@@ -412,7 +413,7 @@ c ;
          if1=min(if1+1,nf1-1)
       endif
       if(isw.eq.ichar('c'))icontour=mod(icontour+1,4)
-      if(isw.eq.ichar('w'))iweb=mod(iweb+1,3)
+      if(isw.eq.ichar('w'))iweb=mod(iweb+1,4)
       if(isw.eq.ichar('h'))then
          write(*,*)' ======== Slice plotting interface:',
      $        '  arrows up/down: change slice.'
@@ -421,7 +422,7 @@ c ;
      $        ' s: rescale. p: print. Drag mouse to rotate.'
          write(*,*)' (jkl;) (m,./): control plotting extent in 2 axes.'
          write(*,*)
-     $        ' c: contour plane position. w: web, solid, none'
+     $        ' c: contour plane position. w: web, solid, smooth, none'
      $        ,' a: aspect'
      $        ,' t: truncation.'
          write(*,*)' u: slice-telling; g: contour gradlegend;'
