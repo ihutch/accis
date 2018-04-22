@@ -241,7 +241,7 @@ c Use this scaling until explicitly reset.
 !      call ax3labels('axis-'//cxlab,'axis-'//cylab,utitle)
 
 c Projected contouring.
-      if(icontour.ne.0)then
+      if(mod(icontour,4).ne.0)then
          if(iweb.eq.0)call cubed(igetcubecorner())
 c       Draw a contour plot in perspective. Need to reset color anyway.
          call axregion(-scbx3,scbx3,-scby3,scby3)
@@ -266,13 +266,13 @@ c Set contour levels using the scaling of the box.
          endif
 c Get back current eye position xe1 etc.
          call trn32(xe,ye,ze,xe1,ye1,ze1,-1)
-         if(icontour.eq.1)call hdprset(-3,sign(scbz3,ze1))
-         if(icontour.eq.2)call hdprset(-3,zplane)
-         if(icontour.eq.3)call hdprset(-3,-sign(scbz3,ze1))
+         if(mod(icontour,4).eq.1)call hdprset(-3,sign(scbz3,ze1))
+         if(mod(icontour,4).eq.2)call hdprset(-3,zplane)
+         if(mod(icontour,4).eq.3)call hdprset(-3,-sign(scbz3,ze1))
 c Contour with coloring, using vector axes, maybe without labelling.
          iclhere=iclsign*icl
          icsw=17
-         if(iweb.gt.1)icsw=icsw-16 
+         if(iweb.gt.1.or.icontour.ge.4)icsw=icsw-16
          call contourl(zp(if1,if2),pp,nw,
      $        nf1+1-if1,nf2+1-if2,cl,iclhere,
      $        xn(ixnp(idp1)+if1),xn(ixnp(idp2)+if2),icsw)
@@ -412,7 +412,7 @@ c ;
          iclipping=1
          if1=min(if1+1,nf1-1)
       endif
-      if(isw.eq.ichar('c'))icontour=mod(icontour+1,4)
+      if(isw.eq.ichar('c'))icontour=mod(icontour+1,8)
       if(isw.eq.ichar('w'))iweb=mod(iweb+1,4)
       if(isw.eq.ichar('h'))then
          write(*,*)' ======== Slice plotting interface:',

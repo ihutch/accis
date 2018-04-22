@@ -244,18 +244,19 @@ syncsilas : lib$(ACCISDRV).a RefManual.html
 	date > syncsilas
 
 syncsource : lib$(ACCISDRV).a RefManual.html
+	@echo '!!!Do not forget to git push (in accis) before syncsource!!!'
 	cd ~/src/accis/ ; git pull origin
 	date > syncsource
 
 synccoptic : lib$(ACCISDRV).a RefManual.html syncsource
-	cd ~/src/accis/ ; make mproper
+	cd ~/src/coptic/accis/ ; make mproper
 	rsync -av --exclude '.git' ~/src/accis/ ~/src/coptic/accis/ 
 	date > synccoptic
 
-syncsceptic : lib$(ACCISDRV).a RefManual.html
-	cd ~/src/accis/ ; make mproper
+syncsceptic : lib$(ACCISDRV).a RefManual.html syncsource
+	cd ~/src/sceptic/accis/ ; make mproper
 	rsync -av --exclude '.git' ~/src/accis/ ~/src/sceptic/accis/ 
-	date > synsceptic
+	date > syncsceptic
 
 tests : 
 	make
