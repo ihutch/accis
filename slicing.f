@@ -42,6 +42,7 @@ c Workspace size is problematic.
       character*1 pp(nwksp)
 c Contour levels
       real cl(30)
+      real colorscale
 c Local variables:
       integer icontour,iweb
       integer jsw
@@ -56,6 +57,7 @@ c Local variables:
       data iclipping/0/idflast/-9999/jsw/0/n1/0/icontour/1/iweb/1/
       data igradleg/0/
       data idfinlast/-9999/
+      data colorscale/1./
 c Tell that we are looking from the top by default.
       data ze1/1./
 
@@ -127,7 +129,8 @@ c Start of controlled plotting loop.
  21   call accisinit
 c This gradient call needs to be after accisinit else nodisplay commands
 c are broken.
-      call blueredgreenwhite()
+C      call blueredgreenwhite()
+      call brgwscaled(0.,colorscale)
 c Set the plotting arrays for fixed dimension idfix.
       idp1=mod(idfix,3)+1
       idp2=mod(idfix+1,3)+1
@@ -317,7 +320,8 @@ c the pfnextsw set by pfset to zero.
 
 c User interface
       call ui3d(n1,iuds,idfix,iquit,laspect,jsw,iclipping,ips,if1,if2
-     $     ,nf1,nf2,idp1,idp2,icontour,iweb,ltellslice,igradleg)
+     $     ,nf1,nf2,idp1,idp2,icontour,iweb,ltellslice,igradleg
+     $     ,colorscale)
       if(iquit.eq.0)goto 21
       call prtend(' ')
       idflast=idfix
@@ -325,7 +329,8 @@ c User interface
       end
 c******************************************************************
       subroutine ui3d(n1,iuds,idfix,iquit,laspect,jsw,iclipping,ips,if1
-     $     ,if2,nf1,nf2,idp1,idp2,icontour,iweb,ltellslice,igradleg)
+     $     ,if2,nf1,nf2,idp1,idp2,icontour,iweb,ltellslice,igradleg
+     $     ,colorscale)
 c Encapsulated routine for controlling a 3-D plot.
 c But many things have to be passed at present. A proper API needs
 c to be designed but here's the approximate description.
@@ -365,6 +370,13 @@ c      write(*,*)'isw',isw
       if(isw.eq.ichar('p'))then
          call pfset(3)
          ips=3
+      endif
+      if(isw.eq.ichar('-'))then
+         colorscale=colorscale*1.1
+         call brgwscaled(0.,colorscale)
+      elseif(isw.eq.ichar('='))then
+         colorscale=colorscale/1.1
+         call brgwscaled(0.,colorscale)
       endif
 c Change fixed dimension, remove clipping, force scaling.
       if(isw.eq.65361)then
@@ -424,8 +436,9 @@ c ;
          write(*,*)
      $        ' c: contour plane position. w: web, solid, smooth, none'
      $        ,' a: aspect'
-     $        ,' t: truncation.'
+     $        ,' t: truncation'
          write(*,*)' u: slice-telling; g: contour gradlegend;'
+     $        ,' -= scale coloring down/up'
          write(*,*)
      $        ' d: disable interface; run continuously.',
      $        ' depress f: to interrupt running.'
