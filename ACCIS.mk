@@ -1,4 +1,5 @@
 SHELL=/bin/bash
+AR=ar
 #########################################################################
 ifeq ("$(FORTRAN)","")
 # Configure compiler. Mostly one long continued bash script.
@@ -28,9 +29,11 @@ LIBDEPS = $(ACCISHOME)libaccisX.a
 COMPILE-SWITCHES = -Wall -O2
 # -fbounds-check
 #########################################################################
-# Always check that the accis library is available. Make it if needed.
- ACCISCHECK:=\
-$(shell echo -n >&2 "Checking accis library ... ";\
+# Always check that the accis library is available and make it,
+# unless we are in the ACCISHOME directory doing things explicitly.
+ACCISCHECK:=\
+$(shell if [ "${PWD}/" != "${ACCISHOME}" ];\
+ then echo -n >&2 "Checking accis library ... ";\
  if [ -f "${ACCISX}" ] ; then echo>&2 "Library ${ACCISX} exists."; else\
    if [ -d "${ACCISPARENT}" ] ; then echo>&2 -n "src directory exists. ";\
      else mkdir ${ACCISPARENT} ; fi;\
@@ -40,7 +43,7 @@ $(shell echo -n >&2 "Checking accis library ... ";\
    cd ${ACCISHOME}; make >&2; cd - >/dev/null;\
    if [ -f "${ACCISX}" ] ; then echo>&2 "Made ${ACCISX}";\
      else echo>&2 "Error making ${ACCISX}"; fi;\
- fi;\
+ fi;fi;\
 )
 #########################################################################
 # This dependency should be included in the application makefile.

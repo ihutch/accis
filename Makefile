@@ -9,6 +9,12 @@ VECX=vecx
 # Include the make commands to define compiler and locations.
 include ACCIS.mk
 #########################################################################
+# Cross-compiling definitions obviously need these executables.
+#F77=i686-w64-mingw32-gfortran -H -mwindows -mconsole --static
+#--verbose --static
+#GCC=i686-w64-mingw32-gcc -H -mwindows -mconsole
+#AR=i686-w64-mingw32-gcc-ar
+#########################################################################
 # To get to compile with X, you might need to supplement this path.
 LIBPATH:=-L. $(LIBPATH)
 ifeq ("$(FORTRAN)","ftn")
@@ -121,9 +127,7 @@ RefManual.pdf : RefManual.tex
 #update the libraries.
 libaccis.a : $(object_files)
 	@echo "Updating libaccis. For $(FORTRAN), $(VECX), $(ACCISDRV)."
-	ar -rs libaccis.a $(object_files)
-
-libaccisX.a : libaccis.a $(VECX)
+	$(AR) -rs libaccis.a $(object_files)
 
 # Headers must be updated, but this section seems to override the
 # implicit rule unless the header dependency is :: double.
@@ -137,6 +141,10 @@ vecx.o : vecx.c $(MAKEFILE)
 vecglx.o : vecglx.c
 	$(CC) $(THREADING) -c vecglx.c
 #	$(CC) -c $(WSWITCHES) $(THREADING) vecglx.c
+
+#vecwin is the C MS windows driver only made by cross-compiling
+vecwin.o : vecwin.c
+	$(GCC) $(libraries) -Wall -c vecwin.c
 
 # The file drwstr.f must be compiled with this switch which disables
 # for gnu compilers the interpretation of backslashes as escapes.
@@ -164,31 +172,43 @@ testing/plottest90 : testing/plottest90.f90 interface.f90
 %.4014 : %.f libaccis.a
 	$(FORTRAN) $(WSWITCHES) -o $*.4014 $*.f -L. -laccis
 
-vecx : libaccis.a vecx.o
+vecx libaccisX.a : libaccis.a vecx.o
 	cp libaccis.a libaccisX.a
-	ar -d libaccisX.a vec4014.o
-	ar -q libaccisX.a vecx.o
+	$(AR) -d libaccisX.a vec4014.o
+	$(AR) -q libaccisX.a vecx.o
 	date >vecx
 	rm -f vecglx
 
 vecglx : libaccis.a vecglx.o
 	cp libaccis.a libaccisX.a
-	ar -d libaccisX.a vec4014.o
-	ar -q libaccisX.a vecglx.o
+	$(AR) -d libaccisX.a vec4014.o
+	$(AR) -q libaccisX.a vecglx.o
 	date >vecglx
 	rm -f vecx
 
 vec4014 : libaccis.a
-	ar -d libaccis.a noscreen.o
-	ar -q libaccis.a vec4014.o
+	$(AR) -d libaccis.a noscreen.o
+	$(AR) -q libaccis.a vec4014.o
 	date >vec4014
 	rm -f noscreen
+
+# Make the windows driver and a test executable.
+vecwin libaccisWin.a : 
+	make clean
+	make GCC="i686-w64-mingw32-gcc -H -mwindows -mconsole" vecwin.o
+	make FORTRAN="i686-w64-mingw32-gfortran -H -mwindows -mconsole --static" GCC="i686-w64-mingw32-gcc -H -mwindows -mconsole" libaccis.a
+	cp libaccis.a libaccisWin.a
+	i686-w64-mingw32-gcc-ar -d libaccisWin.a vec4014.o
+	i686-w64-mingw32-gcc-ar -q libaccisWin.a vecwin.o
+# Use this as the template for windows executables
+	i686-w64-mingw32-gfortran -H -mwindows -mconsole --static -o testing/plottest.exe testing/plottest.f -L. -laccisWin
+	rm -f *.o libaccis.a
 
 noscreen : libaccis.a
 	sed -e "s/data i14no\/0\//data i14no\/1\//" vec4014.f >noscreen.f
 	$(FORTRAN) -c $(WSWITCHES) noscreen.f
-	ar -d libaccis.a vec4014.o
-	ar -q libaccis.a noscreen.o
+	$(AR) -d libaccis.a vec4014.o
+	$(AR) -q libaccis.a noscreen.o
 	date >noscreen
 	rm -f vec4014
 
