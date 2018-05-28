@@ -20,8 +20,8 @@ endif
 export FORTRAN
 #########################################################################
 # Define the directories, variables, defaults that ACCIS uses
-ACCISPARENT= $(HOME)/src/
-ACCISHOME=${ACCISPARENT}accis/
+ACCISPARENT:= $(HOME)/src/
+ACCISHOME:=${ACCISPARENT}accis/
 ACCISX=$(ACCISHOME)libaccisX.a
 LIBPATH= -L$(ACCISHOME) -L.
 LIBRARIES = -laccisX -lX11
@@ -33,14 +33,14 @@ COMPILE-SWITCHES = -Wall -O2
 # unless we are in the ACCISHOME directory doing things explicitly.
 ACCISCHECK:=\
 $(shell if [ "${PWD}/" != "${ACCISHOME}" ];\
- then echo -n >&2 "Checking accis library ... ";\
+ then	echo -n >&2 "Checking accis library ... ";\
  if [ -f "${ACCISX}" ] ; then echo>&2 "Library ${ACCISX} exists."; else\
    if [ -d "${ACCISPARENT}" ] ; then echo>&2 -n "src directory exists. ";\
      else mkdir ${ACCISPARENT} ; fi;\
-   if [ -d "${ACCISHOME}" ] ; then echo>&2 -n "accis directory exists. ";\
+   if [ -d "${ACCISHOME}" ] ; then echo>&2 "accis directory exists. ";\
      else if cd ${ACCISPARENT}; then\
 	git clone https://github.com/ihutch/accis.git; cd - >/dev/null; fi;fi;\
-     if cd ${ACCISHOME}; then make >&2; cd - >/dev/null; fi;\
+   if cd ${ACCISHOME}; then pwd >&2; make >&2; cd - >/dev/null; fi;\
    if [ -f "${ACCISX}" ] ; then echo>&2 "Made ${ACCISX}";\
      else echo>&2 "Error making ${ACCISX}"; fi;\
  fi;fi;\
