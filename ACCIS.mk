@@ -20,22 +20,25 @@ endif
 export FORTRAN
 #########################################################################
 # Define the directories, variables, defaults that ACCIS uses
-ACCISPARENT:= $(HOME)/src/
-ACCISHOME:=${ACCISPARENT}accis/
-ACCISX=$(ACCISHOME)libaccisX.a
+ifeq ("$(ACCISPARENT)","") 
+  ACCISPARENT:= $(HOME)/src
+endif
+ACCISHOME:=$(realpath $(ACCISPARENT))/accis
+ACCISX=$(ACCISHOME)/libaccisX.a
 LIBPATH= -L$(ACCISHOME) -L.
 LIBRARIES = -laccisX -lX11
-LIBDEPS = $(ACCISHOME)libaccisX.a
+LIBDEPS = $(ACCISHOME)/libaccisX.a
 COMPILE-SWITCHES = -Wall -O2
 # -fbounds-check
 #########################################################################
 # Always check that the accis library is available and make it,
 # unless we are in the ACCISHOME directory doing things explicitly.
 ACCISCHECK:=\
-$(shell if [ "${PWD}/" != "${ACCISHOME}" ];\
- then	echo -n >&2 "Checking accis library ... ";\
+$(shell if [ "${CURDIR}" != "$(ACCISHOME)" ];\
+ then   echo >&2 "${CURDIR}" is not the ACCISHOME: "$(ACCISHOME)" ;\
+	echo -n >&2 "Checking accis library ... ";\
  if [ -f "${ACCISX}" ] ; then echo>&2 "Library ${ACCISX} exists."; else\
-   if [ -d "${ACCISPARENT}" ] ; then echo>&2 -n "src directory exists. ";\
+   if [ -d "${ACCISPARENT}" ] ; then echo>&2 -n "parent directory exists. ";\
      else mkdir ${ACCISPARENT} ; fi;\
    if [ -d "${ACCISHOME}" ] ; then echo>&2 "accis directory exists. ";\
      else if cd ${ACCISPARENT}; then\
@@ -46,8 +49,14 @@ $(shell if [ "${PWD}/" != "${ACCISHOME}" ];\
  fi;fi;\
 )
 #########################################################################
-# This dependency should be included in the application makefile.
-#$(ACCISX) : $(ACCISHOME)Makefile
-#	@echo "$(ACCISCHECK)"
-#	cd $(ACCISHOME); make; cd -
+# To satisfy dependencies by building accis in the standard place, simply
+# copy this file to your make directory, insert (before the first target)
+#       include ACCIS.mk
+# in the definitions of your makefile,
+# add the dependency $(LIBDEPS), and  $(LIBPATH) $(LIBRARIES) to executables
+# If accis should be made in some non-standard $(ACCISHOME) location then
+# the makefile should contain
+#       ACCISPARENT:=$(realpath <ParentDirectory>)
+#	export ACCISPARENT
+# just before the include ACCIS.mk line. 
 #########################################################################
