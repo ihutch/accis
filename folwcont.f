@@ -538,7 +538,7 @@ c This is presumably the place to put the function call to document the
 c track followed. At the moment, all we are doing is storing the point
 c in xc,yc. 
 c Path documentation:
-      call acpathdoc(z,cv,l,imax,xc(1),yc(1),i)
+      call acpathdoc(z,cv,l,imax,xc(i),yc(i),i)
 
       itest=ichar(ppath(ix,iy))/2**(id-1)
       if(itest - (itest/2)*2 .eq. 0)
@@ -546,14 +546,13 @@ c Path documentation:
       if(i.eq.imax)then
          write(*,*)'CONFOL: Contour length exhausted',imax
 c Path document end
-         call acpathdoc(z,cv,l,imax,0.,0.,1)
+         call acpathdoc(z,cv,l,-1,xc(i),yc(i),i)
          return
       endif
       if((i.gt.1).and.(ix.eq.initx).and.(iy.eq.inity).and.
      $        (id.eq.initd))then
 c        write(*,*)'Returned to initial point.',ix,iy
-c Path document end
-         call acpathdoc(z,cv,l,imax,0.,0.,1)
+         call acpathdoc(z,cv,l,-2,xc(i),yc(i),i)
          return
       endif
 c Decide which way to turn
@@ -563,7 +562,7 @@ c Decide which way to turn
      $     then
 c        write(*,*)'Moved to edge.'
 c Path document end
-         call acpathdoc(z,cv,l,imax,0.,0.,1)
+         call acpathdoc(z,cv,l,-3,xc(i),yc(i),i)
          return
       endif
       if(z(ixn,iyn)-cv .lt. 0)then
@@ -591,15 +590,18 @@ c**************************************************************************
 c Dummy acpathdoc must be replaced by explicitly linked version if
 c path documentation is actually desired.
       subroutine acpathdoc(z,cv,l,imax,xc,yc,i)
-c Silence annoying warnings
+      real xc,yc,cv
+      integer l,imax,i
       real z(*)
-      r=z(1)
-      r=cv
-      j=l
-      j=imax
-      r=xc
-      r=yc
-      j=i
+c API: at each succeeding contour position i (1 to N), 
+c     acpathdoc is called with arguments
+c     z(l,*) the array being contoured at contour value cv
+c     imax (in) has value of the last argument of confol (length of xc,yc)
+c          or an end indicator: -1 exhausted, -2 initial pt, -3 reached edge
+c     xc, yc, i, the position of point i in path arrays.
+c Typical usage might be to declare the new acpathdoc to have a common
+c block into which xc,yc are entered to provide the contour as a polyline
+c xpath(i)=xc; ypath(i)=yc. 
       end
 c**************************************************************************
       subroutine  nextpt(z,l,ixm,iym,cv,ix,iy,idx,idy,di)

@@ -103,7 +103,8 @@ sysfont.o\
 slicing.o\
 fillgrad.o\
 boxcarave.o\
-surfaces.o
+surfaces.o\
+acpath.o
 
 noback_object_files = drwstr.o fontdata.o vecnp.o 
 object_files=$(standard_object_files) $(noback_object_files)
