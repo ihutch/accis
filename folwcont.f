@@ -374,6 +374,7 @@ c Found a new starting point.
                         call confol(z,cv,l,ixmax,iymax,
      $                    i,j,id,ppath,xc,yc,ic)
                         call mesh2w(xc,yc,ic,x,y,l,consw)
+                        call acpathdoc(ic,xc,yc,cv)
 c                           do kc=1,ic
 c                              write(*,*)kc,xc(kc),yc(kc)
 c                           enddo
@@ -388,8 +389,8 @@ c                           call acgradcolor(ifcolor)
                            call polyline(xc,yc,ic)
 c                           write(*,'(i4,2f10.4)')(kc,xc(kc),yc(kc),kc=1
 c     $                          ,ic)
-                           call pathfill()
-                           call color(icol)
+                           call pathfill() 
+                          call color(icol)
                            endif
                         else
                            call labeline(xc,yc,ic,str1,width)
@@ -420,6 +421,7 @@ c Found a new starting point.
                      call confol(z,cv,l,ixmax,iymax,
      $                 i,j,id,ppath,xc,yc,ic)
                      call mesh2w(xc,yc,ic,x,y,l,consw)
+                     call acpathdoc(ic,xc,yc,cv)
                      if(ifcolor.ne.0)then
 c                        write(*,*)'Filling ifcolor',ifcolor,ic,cv
 c                        write(*,'(2f10.4)')(xc(kk),yc(kk),kk=1,ic)
@@ -534,25 +536,17 @@ c      write(*,'('' new ix,iy,id,i'',4i4)')ix,iy,id,i
      $     ix,iy,idx(id-1),idy(id-1),di)
       xc(i)=ix+idx(id-1)*di
       yc(i)=iy+idy(id-1)*di
-c This is presumably the place to put the function call to document the
-c track followed. At the moment, all we are doing is storing the point
-c in xc,yc. 
-c Path documentation:
-      call acpathdoc(z,cv,l,imax,xc(i),yc(i),i)
 
       itest=ichar(ppath(ix,iy))/2**(id-1)
       if(itest - (itest/2)*2 .eq. 0)
      $      ppath(ix,iy)=char(ichar(ppath(ix,iy))+2**(id-1))
       if(i.eq.imax)then
          write(*,*)'CONFOL: Contour length exhausted',imax
-c Path document end
-         call acpathdoc(z,cv,l,-1,xc(i),yc(i),i)
          return
       endif
       if((i.gt.1).and.(ix.eq.initx).and.(iy.eq.inity).and.
      $        (id.eq.initd))then
 c        write(*,*)'Returned to initial point.',ix,iy
-         call acpathdoc(z,cv,l,-2,xc(i),yc(i),i)
          return
       endif
 c Decide which way to turn
@@ -561,8 +555,6 @@ c Decide which way to turn
       if((ixn.lt.1).or.(ixn.gt.ixmax).or.(iyn.lt.1).or.(iyn.gt.iymax))
      $     then
 c        write(*,*)'Moved to edge.'
-c Path document end
-         call acpathdoc(z,cv,l,-3,xc(i),yc(i),i)
          return
       endif
       if(z(ixn,iyn)-cv .lt. 0)then
