@@ -116,7 +116,7 @@ void getcmdargs_()
   extern void cmdlineargs_();
   int i,j;
 
-  cmdlineargs_(&iargc,argv,charlen);
+  cmdlineargs_(&iargc,argv,&charlen);
   accis_argc=iargc;
   /* Parse the returned command line string into standard C argv*/
   accis_argv[0]=argv+strspn(argv," ");
