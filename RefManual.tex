@@ -559,6 +559,11 @@ IXNPCREATE(Nx,Ny,Nz,xposv,yposv,zposv,ixnpv,xnv) Is a utility that
 creates the vectors ixnpv,xnv, needed for slicegweb and slicegcont
 from three coordinate arrays: xposv,yposv,zposv, of lengths Nx,Ny,Nz.
 
+IXNPCONSTRUCT(ndims,imax,iuds,xyzmesha,ixnpv,xnv) Is a general
+dimensioned form of the same thing but uses an array
+xyzmesha(imax,ndims) instead of separate position vectors.
+
+
 \section{Primitives}
 
 VECW(x,y,ipen) Draw world-unit vector to (x,y) with pen up (ipen=0) or

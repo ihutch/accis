@@ -1,7 +1,7 @@
 c Automatic routine for doing raw contour-ing.
       subroutine autocontour(zin,Lz,nx,ny)
       real zin(Lz,ny)
-      parameter(nxmax=500,nymax=500,nlmax=16)
+      parameter(nxmax=2000,nymax=2000,nlmax=16)
       real x(nxmax,nymax),y(nxmax,nymax),z(nxmax,nymax),cl(nlmax)
       real x1(nxmax*nymax),y1(nxmax*nymax),z1(nxmax*nymax)
       equivalence (x1,x),(y1,y),(z1,z)

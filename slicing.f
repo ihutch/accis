@@ -439,6 +439,10 @@ c k
          if1=min(if1+1,iuds(idp1))
          nf1=max(if1,nf1)
          if(nf1.eq.if1)call linevecdoc(idfix,n1,1,nf1)
+c      elseif(isw.eq.ichar('['))then
+c         iclipping=1
+      else
+c         write(*,*)char(isw)
       endif
       if(isw.eq.ichar('c'))icontour=mod(icontour+1,8)
       if(isw.eq.ichar('w'))iweb=mod(iweb+1,4)
@@ -1299,3 +1303,25 @@ c green yellow white
 c      call accisgradinit(-32000,0,-65000,97000,150000,65500)
 c red orange white
 c      call accisgradinit(0,-32000,-65000,150000,97000,65500)
+c*****************************************************************
+      subroutine ixnpconstruct(ndims,imax,iuds,xyzmesh,ixnp,xn)
+! Construct the mesh position vector from given arguments.
+c Input ndims, imax, iuds, xyzmesh. Output:
+c The node positions are given by vectors laminated into xn, whose
+c starts for dimensions id are at ixnp(id)+1. 
+c So the vector of positions for dimension id is 
+c   ixnp(id)+1 to ixnp(id)+iuds(id) [and ixnp(id+1)-ixnp(id)>=iuds(id)]
+      integer ndims,iuds(ndims)
+      real xyzmesh(imax,ndims)
+      integer ixnp(ndims+1)
+      real xn(*)
+      ic=0
+      do i=1,ndims
+         ixnp(i)=ic
+         do j=1,iuds(i)
+            ic=ic+1
+            xn(ic)=xmesh(j,i)
+         enddo
+      enddo
+      ixnp(ndims+1)=ic+1
+      end
