@@ -1325,3 +1325,12 @@ c   ixnp(id)+1 to ixnp(id)+iuds(id) [and ixnp(id+1)-ixnp(id)>=iuds(id)]
       enddo
       ixnp(ndims+1)=ic+1
       end
+c******************************************************************
+      subroutine setax3chars(a,b,c)
+      character*(*) a,b,c
+      include 'world3.h'
+      ax3chars(1)=a
+      ax3chars(2)=b
+      ax3chars(3)=c
+      end
+      

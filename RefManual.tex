@@ -541,7 +541,8 @@ the contour plot arrows representing the projection of the vector
 field svec(ifullv,3), which has the same indexing and positions as u,
 and three vector components. The work array vp(nw,nw,2) must be
 provided.  The last two arguments may be dummy in the call if
-abs(ifix)$<$4.
+abs(ifix)$<$4. More complicated ifix switches are in its higher bits.
+Consult slicing.f for details.
 
 \iftth \special{html:<a href="slicetest.f"><img align="right"
 src="sgcont.jpg" width="300"></a>}\fi
@@ -563,6 +564,8 @@ IXNPCONSTRUCT(ndims,imax,iuds,xyzmesha,ixnpv,xnv) Is a general
 dimensioned form of the same thing but uses an array
 xyzmesha(imax,ndims) instead of separate position vectors.
 
+SETAX3CHARS(ca,cb,cc) Set the default labels for 3 axes of 3-D data
+from character variables.
 
 \section{Primitives}
 
