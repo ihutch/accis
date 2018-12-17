@@ -239,9 +239,13 @@ c Use this scaling until explicitly reset.
             call axproj(igetcorner())
          endif
       endif
-      
-      write(form1,'(''Dimension '',i1,'' Plane'',i4)')idfix,n1
-      if(ltellslice)call drwstr(.1,.02,form1)
+
+      if(ltellslice)then
+         call drwstr(.1,.02
+     $        ,ax3chars(idfix)(1:lentrim(ax3chars(idfix))))
+         call fwrite(xn(ixnp(idfix)+n1),iwidth,2,form1)
+         call drcstr(' '//form1(1:iwidth+1))
+      endif
       call termchar(ax3chars(idp1))
       call termchar(ax3chars(idp2))
       call ax3labels(ax3chars(idp1),ax3chars(idp2),utitle)

@@ -710,7 +710,8 @@ the contour plot arrows representing the projection of the vector
 field svec(ifullv,3), which has the same indexing and positions as u,
 and three vector components. The work array vp(nw,nw,2) must be
 provided.  The last two arguments may be dummy in the call if
-abs(ifix) &lt; 4.
+abs(ifix) &lt; 4. More complicated ifix switches are in its higher bits.
+Consult slicing.f for details.
 
 <div class="p"><!----></div>
 <a href="slicetest.f"><img align="right"
@@ -735,6 +736,10 @@ from three coordinate arrays: xposv,yposv,zposv, of lengths Nx,Ny,Nz.
 IXNPCONSTRUCT(ndims,imax,iuds,xyzmesha,ixnpv,xnv) Is a general
 dimensioned form of the same thing but uses an array
 xyzmesha(imax,ndims) instead of separate position vectors.
+
+<div class="p"><!----></div>
+SETAX3CHARS(ca,cb,cc) Set the default labels for 3 axes of 3-D data
+from character variables.
 
 <div class="p"><!----></div>
  <a id="tth_sEc13"></a><h2>
@@ -886,5 +891,5 @@ for operation of debugged correct code.
 T<sub><span class="small">E</span></sub>X
 by <a href="http://hutchinson.belmont.ma.us/tth/">
 T<sub><span class="small">T</span></sub>H</a>,
-version 4.13.<br />On 17 Dec 2018, 14:46.</small>
+version 4.13.<br />On 17 Dec 2018, 15:59.</small>
 </html>
