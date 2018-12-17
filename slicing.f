@@ -1320,7 +1320,7 @@ c   ixnp(id)+1 to ixnp(id)+iuds(id) [and ixnp(id+1)-ixnp(id)>=iuds(id)]
          ixnp(i)=ic
          do j=1,iuds(i)
             ic=ic+1
-            xn(ic)=xmesh(j,i)
+            xn(ic)=xyzmesh(j,i)
          enddo
       enddo
       ixnp(ndims+1)=ic+1
