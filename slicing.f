@@ -249,9 +249,6 @@ c Use this scaling until explicitly reset.
       call termchar(ax3chars(idp1))
       call termchar(ax3chars(idp2))
       call ax3labels(ax3chars(idp1),ax3chars(idp2),utitle)
-!      call iwrite(idp1,iwidth,cxlab)
-!      call iwrite(idp2,iwidth,cylab)
-!      call ax3labels('axis-'//cxlab,'axis-'//cylab,utitle)
 
 c Projected contouring.
       if(mod(icontour,4).ne.0.and.nf1.gt.if1.and.nf2.gt.if2)then
