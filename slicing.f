@@ -226,6 +226,7 @@ c Old buggy setting, only works for centered cube.
                yc=.25
             endif
             zc=.2
+!            write(*,*)'xdp1,2',xdp1,xdp2,xc,yc,zc
             call setcube(xc,yc,zc,.5,.4)
          endif
 c Rescale x and y (if necessary), but not z.
@@ -383,6 +384,9 @@ c      write(*,*)'isw',isw
       if(isw.eq.65362 .and. n1.lt.iuds(idfix)) n1=n1+1
       if(isw.eq.ichar('q')) iquit=1
       if(isw.eq.ichar('a')) laspect=.not.laspect
+      if(isw.eq.ichar('x')) laspect=.false.
+      if(isw.eq.ichar('z')) laspect=.false.
+      if(isw.eq.ichar('v')) laspect=.false.
       if(isw.eq.ichar('d')) call noeye3d(0)
       if(isw.eq.ichar('s')) jsw=1 + 256*6 + 256*256*7
       if(isw.eq.ichar('t')) call togi3trunc()
@@ -1069,10 +1073,13 @@ c Magnify the unit cube
 c Shrink the unit cube
          call getcube(cbx,cby,cbz,xcbc,ycbc)
          call setcube(cbx/1.05,cby/1.05,cbz/1.05,xcbc,ycbc)
+      elseif(isw.eq.ichar('v'))then
+! Set view to top for 2-d plot of slice
+         call trn32(xe,ye,ze,0.,-0.001,10.,1)
       elseif(isw.eq.ichar('h'))then
 c Help text
          write(*,*)' i/o: move eye in/out. r/e: rotate.'
-     $        ,' z/x: zoom/shrink.'
+     $        ,' z/x: zoom/shrink. v: top-view'
       endif
       if(irotating.gt.0)then
 c Get back current eye position xe1 etc.
