@@ -113,6 +113,14 @@ c Contour level fitting.
          if(int(abs(cl(1))).ne.0) in=int(abs(cl(1)))
          call fitrange(minz,maxz,in,nxfac,xfac,xtic,x1st,xlast)
 c Simple fitrange for coloring.
+         if(x1st*xlast.lt.0)then  
+c We crossed zero; prevent zero from being omitted.
+            df=xlast/xtic-nint(xlast/xtic)
+            if(abs(df).gt.1e-4)then
+               x1st=x1st-df
+               xlast=xlast-df
+            endif
+         endif
          c1st=x1st
          clast=xlast
          cv=maxz-minz
