@@ -239,7 +239,7 @@ interface.f90 : convert
 sync : gitcommit syncsource synccoptic syncsceptic
 
 gitcommit :
-	if [ "`git status | grep nothing`" -eq "" ] ; then \
+	if [ -n "`git status | grep nothing`" ] ; then \
  git push; else echo "GIT COMMIT CHANGES FIRST"; git status ; exit 1 ; fi
 
 syncsilas : lib$(ACCISDRV).a RefManual.html
