@@ -247,7 +247,6 @@ syncsilas : lib$(ACCISDRV).a RefManual.html
 	date > syncsilas
 
 syncsource : lib$(ACCISDRV).a RefManual.html
-	@echo '!!!Do not forget to git push (in accis) before syncsource!!!'
 	cd ~/src/accis/ ; git fetch origin; git reset --hard origin/master
 	date > syncsource
 
