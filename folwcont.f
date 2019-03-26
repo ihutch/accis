@@ -235,7 +235,7 @@ c                  write(*,*)c1st,clast,ngradcol
          labels=.true.
          if(ncin.lt.-988)labels=.false.
 c    stored current size earlier
-         call charsize(0.8*cw,0.8*ch)
+         call charsize(max(0.01,0.7*cw),max(0.01,0.7*ch))
 c Decide on the format of the label based on the contour range.
          point=2-min(ifix(log10(cv)),2)
       endif
