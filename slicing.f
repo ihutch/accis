@@ -1390,10 +1390,23 @@ c The used dimensions of each are
       integer nw
       real zp(nw*nw)
       integer ixnpv(ndims+1)
-      real xnv(2000) !Hack
+      parameter (nx=2000)
+      real xnv(nx)
       character*20 utitle
 
-c Create the index arrays
+      call simpleixnp(ndims,iuds,starts,ends,ixnpv,xnv,nx)
+      idfixp=1
+      utitle=''
+      write(*,*)ifull,iuds,nw,ixnpv
+      call sliceGweb(ifull,iuds,u,nw,zp,ixnpv,xnv,idfixp,utitle)
+!     $     ,svec,vp)
+
+      end
+c*********************************************************************
+      subroutine simpleixnp(ndims,iuds,starts,ends,ixnpv,xnv,nx)
+c Create the uniform index arrays for slicesimple
+      integer iuds(ndims),ixnpv(ndims+1)
+      real starts(ndims),ends(ndims),xnv(nx)
       ixnpv(1)=0
       do id=1,ndims
          ixnpv(id+1)=ixnpv(id)+iuds(id)
@@ -1404,11 +1417,4 @@ c Create the index arrays
          write(*,*)ixnpv(id)
          write(*,'(10f8.4)')(xnv(i),i=ixnpv(id)+1,ixnpv(id+1))
       enddo
-
-      idfixp=1
-      utitle=''
-      write(*,*)ifull,iuds,nw,ixnpv
-      call sliceGweb(ifull,iuds,u,nw,zp,ixnpv,xnv,idfixp,utitle)
-!     $     ,svec,vp)
-
       end
