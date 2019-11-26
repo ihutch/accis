@@ -1377,4 +1377,38 @@ c******************************************************************
       ax3chars(2)=b
       ax3chars(3)=c
       end
-      
+c*******************************************************************
+      subroutine slicesimple(ifull,iuds,u,starts,ends,nw,zp)
+c Simplified call to slicegweb that creates the positional index arrays
+c assuming they are uniform between starts and ends.      
+      parameter(ndims=3,nd2=2*ndims)
+      integer ifull(ndims)
+c The used dimensions of each are
+      integer iuds(ndims)
+      real u(ifull(1),ifull(2),ifull(3))
+      real starts(ndims),ends(ndims)
+      integer nw
+      real zp(nw*nw)
+      integer ixnpv(ndims+1)
+      real xnv(2000) !Hack
+      character*20 utitle
+
+c Create the index arrays
+      ixnpv(1)=0
+      do id=1,ndims
+         ixnpv(id+1)=ixnpv(id)+iuds(id)
+         do i=ixnpv(id)+1,ixnpv(id+1)
+            j=i-ixnpv(id)-1
+            xnv(i)=starts(id)+j*(ends(id)-starts(id))/(iuds(id)-1)
+         enddo
+         write(*,*)ixnpv(id)
+         write(*,'(10f8.4)')(xnv(i),i=ixnpv(id)+1,ixnpv(id+1))
+      enddo
+
+      idfixp=1
+      utitle=''
+      write(*,*)ifull,iuds,nw,ixnpv
+      call sliceGweb(ifull,iuds,u,nw,zp,ixnpv,xnv,idfixp,utitle)
+!     $     ,svec,vp)
+
+      end
