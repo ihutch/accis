@@ -1397,7 +1397,7 @@ c The used dimensions of each are
       call simpleixnp(ndims,iuds,starts,ends,ixnpv,xnv,nx)
       idfixp=1
       utitle=''
-      write(*,*)ifull,iuds,nw,ixnpv
+!      write(*,*)ifull,iuds,nw,ixnpv
       call sliceGweb(ifull,iuds,u,nw,zp,ixnpv,xnv,idfixp,utitle)
 !     $     ,svec,vp)
 
