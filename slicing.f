@@ -1414,7 +1414,7 @@ c Create the uniform index arrays for slicesimple
             j=i-ixnpv(id)-1
             xnv(i)=starts(id)+j*(ends(id)-starts(id))/(iuds(id)-1)
          enddo
-         write(*,*)ixnpv(id)
-         write(*,'(10f8.4)')(xnv(i),i=ixnpv(id)+1,ixnpv(id+1))
+!         write(*,*)ixnpv(id)
+!         write(*,'(10f8.4)')(xnv(i),i=ixnpv(id)+1,ixnpv(id+1))
       enddo
       end
