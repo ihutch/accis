@@ -20,6 +20,8 @@ c Segments alternate pen down, pen up.
       parameter (MASKNO=4)
       dimension dashmask(MASKNO),dashlen(MASKNO)
       common/dashline/ldash,dashlen,dashdist,dashmask,jmask
+      integer ptrunc
+      external ptrunc
 
       if(npts.le.0) return
       call vecw(x(1),y(1),0)
@@ -30,6 +32,10 @@ c Segments alternate pen down, pen up.
 c We shall bypass vecw and go straight to normal.
             nx=wx2nx(x(i))
             ny=wy2ny(y(i))
+c But we must ensure we don't draw beyond the truncation rectangle here
+c because otherwise we get into an infinite loop of segments when both
+c ends of the vector are outside the box (on the same side)
+            if(ptrunc(crsrx,crsry,nx,ny).eq.99)return
 c Lengths of total vector:
             cx=nx
             cy=ny
@@ -49,7 +55,6 @@ c Vector longer than this segment. Draw segment and iterate.
                nx= crsrx+dx*flen
                ny= crsry+dy*flen
                cud=dashmask(jmask)
-c              call optvecn(nx,ny,cud)
                call vecn(nx,ny,cud)
                jmask=mod(jmask,MASKNO)+1
                goto 1
