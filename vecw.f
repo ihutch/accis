@@ -69,25 +69,26 @@ C********************************************************************
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
-            yd=-.01/w2ny
-c            write(*,*)naymin,w2ny,naymin+yd*w2ny
+            wy2ny=naymin-0.1
+!            write(*,*)wy,naymin,w2ny
          elseif(wy.gt.1000.*wymax) then
             if(errcount.lt.5)then
-            write(*,*)'ACCIS WARNING world log y value',wy
-     $           ,' far outside box.'
+               write(*,*)'ACCIS WARNING world log y value',wy
+     $           ,' far above box.'
             elseif(errcount.eq.5)then
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
-c            yd=.01/w2ny
-            yd=log10(1000.*wymax)
+            wy2ny=naymax+.1
+!            write(*,*)wy,naymax,w2ny
          else
             yd=log10(wy)-log10(wymin)
+            wy2ny=naymin+yd*w2ny
          endif
       else
          yd=wy-wymin
+         wy2ny=naymin+yd*w2ny
       endif
-      wy2ny=naymin+yd*w2ny
       return
       end
 C********************************************************************

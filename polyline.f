@@ -32,10 +32,6 @@ c Segments alternate pen down, pen up.
 c We shall bypass vecw and go straight to normal.
             nx=wx2nx(x(i))
             ny=wy2ny(y(i))
-c But we must ensure we don't draw beyond the truncation rectangle here
-c because otherwise we get into an infinite loop of segments when both
-c ends of the vector are outside the box (on the same side)
-            if(ptrunc(crsrx,crsry,nx,ny).eq.99)return
 c Lengths of total vector:
             cx=nx
             cy=ny
@@ -57,7 +53,10 @@ c Vector longer than this segment. Draw segment and iterate.
                cud=dashmask(jmask)
                call vecn(nx,ny,cud)
                jmask=mod(jmask,MASKNO)+1
-               goto 1
+c Iterate if plen has not got ridiculously short.
+               if(plen.gt.10-4)goto 1 
+c We must be careful we don't get into an infinite loop of segments
+c when both ends of the vector are outside the box (on the same side)
             else
 c Vector ends before segment. Draw to end of vector and quit.
                dashdist=plen+dashdist
