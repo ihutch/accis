@@ -54,7 +54,7 @@ c Vector longer than this segment. Draw segment and iterate.
                call vecn(nx,ny,cud)
                jmask=mod(jmask,MASKNO)+1
 c Iterate if plen has not got ridiculously short.
-               if(plen.gt.10-4)goto 1 
+               if(plen.gt.1.0e-4)goto 1 
 c We must be careful we don't get into an infinite loop of segments
 c when both ends of the vector are outside the box (on the same side)
             else
