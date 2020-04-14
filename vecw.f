@@ -50,7 +50,7 @@ C********************************************************************
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
-            wx2nx=naxmax+1. 
+            wx2nx=naxmax+.1 
          elseif(wx.lt.0.001*wxmin)then
             if(errcount.lt.3)then
                write(*,*)'ACCIS WARNING world log x value',wy
@@ -59,7 +59,7 @@ C********************************************************************
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
-            wx2nx=naxmin-1.
+            wx2nx=naxmin-.1
          else 
             xd=log10(wx)-log10(wxmin)
             wx2nx=naxmin+xd*w2nx
@@ -86,7 +86,7 @@ C********************************************************************
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
-            wy2ny=naymin-1. 
+            wy2ny=naymin-.1 
 !            write(*,*)wy,naymin,w2ny
          elseif(wy.gt.1000.*wymax) then
             if(errcount.lt.3)then
@@ -96,7 +96,7 @@ C********************************************************************
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
-            wy2ny=naymax+1.
+            wy2ny=naymax+.1
 !            write(*,*)wy,naymax,w2ny
          else
             yd=log10(wy)-log10(wymin)
