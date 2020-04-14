@@ -32,6 +32,14 @@ c Segments alternate pen down, pen up.
 c We shall bypass vecw and go straight to normal.
             nx=wx2nx(x(i))
             ny=wy2ny(y(i))
+            iptrunc=ptrunc(crsrx,crsry,nx,ny)
+            if(iptrunc.eq.99)then
+c This vector is fully outside the truncation box. Skip the plot
+c but move the cursor to the next point.
+               crsrx=nx
+               crsry=ny
+               goto 3
+            endif
 c Lengths of total vector:
             cx=nx
             cy=ny
@@ -44,6 +52,7 @@ c Partial length remaining:
 c Distance to end of segment
     1       dlen=(dashlen(jmask)-dashdist)
             if(plen.gt.dlen)then
+c               write(*,*)plen,dlen,nx,ny,iptrunc
 c Vector longer than this segment. Draw segment and iterate.
                dashdist=0
                plen=plen-dlen
@@ -54,7 +63,8 @@ c Vector longer than this segment. Draw segment and iterate.
                call vecn(nx,ny,cud)
                jmask=mod(jmask,MASKNO)+1
 c Iterate if plen has not got ridiculously short.
-               if(plen.gt.1.0e-4)goto 1 
+c               if(plen.lt.1.e-4)plen=0.
+               goto 1
 c We must be careful we don't get into an infinite loop of segments
 c when both ends of the vector are outside the box (on the same side)
             else

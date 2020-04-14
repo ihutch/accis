@@ -39,18 +39,35 @@ C********************************************************************
       real wx2nx,wx
       include 'plotcom.h'
       real xd
+      integer errcount
+      data errcount/0/
       if(lxlog)then
-         if(wx.lt.0.001*wxmin .or. wx.gt.1000.*wxmax) then
-            write(*,*)'ACCIS WARNING world log x value outside range:'
-     $           ,wx,' plotting outside box.'
-            xd=.01/w2nx
-         else
+         if(wx.gt.1000.*wxmax) then
+            if(errcount.lt.3)then
+               write(*,*)'ACCIS WARNING world log x value',wy
+     $           ,' far to right of box.'
+            elseif(errcount.eq.3)then
+               write(*,*)'Further log value warnings suppressed'
+            endif
+            errcount=errcount+1
+            wx2nx=naxmax+1. 
+         elseif(wx.lt.0.001*wxmin)then
+            if(errcount.lt.3)then
+               write(*,*)'ACCIS WARNING world log x value',wy
+     $              ,' far to left of box.'
+            elseif(errcount.eq.3)then
+               write(*,*)'Further log value warnings suppressed'
+            endif
+            errcount=errcount+1
+            wx2nx=naxmin-1.
+         else 
             xd=log10(wx)-log10(wxmin)
+            wx2nx=naxmin+xd*w2nx
          endif
       else
          xd=wx-wxmin
+         wx2nx=naxmin+xd*w2nx
       endif
-      wx2nx=naxmin+xd*w2nx
       return
       end
 C********************************************************************
@@ -62,24 +79,24 @@ C********************************************************************
       data errcount/0/
       if(lylog)then
          if(wy.lt.0.01*wymin)then
-            if(errcount.lt.5)then
+            if(errcount.lt.3)then
                write(*,*)'ACCIS WARNING world log y value',wy
      $           ,' far below box.'
-            elseif(errcount.eq.5)then
+            elseif(errcount.eq.3)then
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
-            wy2ny=naymin-0.1
+            wy2ny=naymin-1. 
 !            write(*,*)wy,naymin,w2ny
          elseif(wy.gt.1000.*wymax) then
-            if(errcount.lt.5)then
+            if(errcount.lt.3)then
                write(*,*)'ACCIS WARNING world log y value',wy
      $           ,' far above box.'
-            elseif(errcount.eq.5)then
+            elseif(errcount.eq.3)then
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
-            wy2ny=naymax+.1
+            wy2ny=naymax+1.
 !            write(*,*)wy,naymax,w2ny
          else
             yd=log10(wy)-log10(wymin)
