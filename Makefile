@@ -32,28 +32,6 @@ fi fi fi\
 )
 endif
 ##########################################################################
-TESTMACOS:=$(shell ls /Users 2>&1 | grep "No such")
-ifeq ("$(TESTMACOS)","") 
-#MacOS with xquartz requires:
- CC=gcc -I /opt/X11/include
- LIBPATH:=-L /opt/X11/lib $(LIBPATH)
-# Test whether X libraries are found. Null => yes.
- TESTX11:=$(shell $(FORTRAN) $(LIBPATH) -lX11 -o /dev/null 2>&1 | grep X)
-   ifneq ("$(TESTX11)","")
-     XNOTFOUND:=$(shell echo\
-	 "No X11 libraries found! On MacOS:  brew cask install xquartz" >&2;)
-   endif
-else
-# Test whether X libraries are found. Null => yes.
-  TESTX11:=$(shell $(FORTRAN) $(LIBPATH) -lX11 -o /dev/null 2>&1 | grep X)
-   ifneq ("$(TESTX11)","")
-     XNOTFOUND:=$(shell echo\
-	 "No X11 libraries found! Install package  libx11-dev" >&2;)
-   endif
-endif
-#
-TESTGL:=$(shell $(FORTRAN)  $(LIBPATH) -lGLU -lGL -o /dev/null 2>&1 | grep GL)
-##########################################################################
 ifneq ("$(VECX)","")
 # VECX explicitly set. Use the tests to convey the choice.
  ifeq ("$(TESTX11)","")

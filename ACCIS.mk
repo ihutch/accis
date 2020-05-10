@@ -25,7 +25,7 @@ ifeq ("$(ACCISPARENT)","")
 endif
 ACCISHOME:=$(realpath $(ACCISPARENT))/accis
 ACCISX=$(ACCISHOME)/libaccisX.a
-LIBPATH= -L$(ACCISHOME) -L.
+LIBPATH= -L $(ACCISHOME) -L.
 LIBRARIES = -laccisX -lX11
 LIBDEPS = $(ACCISHOME)/libaccisX.a
 COMPILE-SWITCHES = -Wall -O2
@@ -48,6 +48,28 @@ $(shell if [ "${CURDIR}" != "$(ACCISHOME)" ];\
  fi;\
 else echo >&2 "${CURDIR}" is the ACCISHOME: "$(ACCISHOME)". No tests. ; fi;\
 )
+##########################################################################
+# Detect what system we are on and whether X11 is installed.
+TESTMACOS:=$(shell ls /Users 2>&1 | grep "No such")
+ifeq ("$(TESTMACOS)","") 
+#MacOS with xquartz requires:
+ CC=gcc -I /opt/X11/include
+ LIBPATH:=-L /opt/X11/lib $(LIBPATH)
+# Test whether X libraries are found. Null => yes.
+ TESTX11:=$(shell $(FORTRAN) $(LIBPATH) -lX11 -o /dev/null 2>&1 | grep X)
+   ifneq ("$(TESTX11)","")
+     XNOTFOUND:=$(shell echo\
+	 "No X11 libraries found! On MacOS:  brew cask install xquartz" >&2;)
+   endif
+else
+# Test whether X libraries are found. Null => yes.
+  TESTX11:=$(shell $(FORTRAN) $(LIBPATH) -lX11 -o /dev/null 2>&1 | grep X)
+   ifneq ("$(TESTX11)","")
+     XNOTFOUND:=$(shell echo\
+	 "No X11 libraries found! Install package  libx11-dev" >&2;)
+   endif
+endif
+TESTGL:=$(shell $(FORTRAN)  $(LIBPATH) -lGLU -lGL -o /dev/null 2>&1 | grep GL)
 #########################################################################
 # To satisfy dependencies by building accis in the standard place, copy
 # the file ACCIS.mk to your make directory; insert (before the first target)
