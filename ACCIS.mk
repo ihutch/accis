@@ -35,8 +35,7 @@ COMPILE-SWITCHES = -Wall -O2
 # unless we are in the ACCISHOME directory doing things explicitly.
 ACCISCHECK:=\
 $(shell if [ "${CURDIR}" != "$(ACCISHOME)" ];\
- then   echo >&2 "${CURDIR}" is not the ACCISHOME: "$(ACCISHOME)" ;\
-	echo -n >&2 "Checking accis library ... ";\
+ then	echo -n >&2 "Checking accis library ... ";\
  if [ -f "${ACCISX}" ] ; then echo>&2 "Library ${ACCISX} exists."; else\
    if [ -d "${ACCISPARENT}" ] ; then echo>&2 -n "parent directory exists. ";\
      else mkdir ${ACCISPARENT} ; fi;\
@@ -46,17 +45,19 @@ $(shell if [ "${CURDIR}" != "$(ACCISHOME)" ];\
    if cd ${ACCISHOME}; then pwd >&2; make >&2; cd - >/dev/null; fi;\
    if [ -f "${ACCISX}" ] ; then echo>&2 "Made ${ACCISX}";\
      else echo>&2 "Error making ${ACCISX}"; fi;\
- fi;fi;\
+ fi;\
+else echo >&2 "${CURDIR}" is the ACCISHOME: "$(ACCISHOME)". No tests. ; fi;\
 )
 #########################################################################
-# To satisfy dependencies by building accis in the standard place, simply
-# copy this file to your make directory, insert (before the first target)
+# To satisfy dependencies by building accis in the standard place, copy
+# the file ACCIS.mk to your make directory; insert (before the first target)
 #       include ACCIS.mk
-# in the definitions of your makefile,
-# add the dependency $(LIBDEPS), and  $(LIBPATH) $(LIBRARIES) to executables
+# in the definitions of your makefile; and add the dependencies 
+#       $(LIBDEPS), and  $(LIBPATH) $(LIBRARIES) to executables.
+# These will cause the accis library to be cloned from github and compiled.
 # If accis should be made in some non-standard $(ACCISHOME) location then
-# the makefile should contain
+# the makefile can specify the parent directory by containing
 #       ACCISPARENT:=$(realpath <ParentDirectory>)
 #	export ACCISPARENT
-# just before the include ACCIS.mk line. 
+# just before the   include ACCIS.mk   line. 
 #########################################################################

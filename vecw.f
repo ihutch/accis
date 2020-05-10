@@ -43,19 +43,19 @@ C********************************************************************
       data errcount/0/
       if(lxlog)then
          if(wx.gt.1000.*wxmax) then
-            if(errcount.lt.3)then
+            if(errcount.lt.3.and.iwarn.eq.1)then
                write(*,*)'ACCIS WARNING world log x value',wy
      $           ,' far to right of box.'
-            elseif(errcount.eq.3)then
+            elseif(errcount.eq.3.and.iwarn.eq.1)then
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
             wx2nx=naxmax+.1 
          elseif(wx.lt.0.001*wxmin)then
-            if(errcount.lt.3)then
+            if(errcount.lt.3.and.iwarn.eq.1)then
                write(*,*)'ACCIS WARNING world log x value',wy
      $              ,' far to left of box.'
-            elseif(errcount.eq.3)then
+            elseif(errcount.eq.3.and.iwarn.eq.1)then
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
@@ -79,20 +79,20 @@ C********************************************************************
       data errcount/0/
       if(lylog)then
          if(wy.lt.0.01*wymin)then
-            if(errcount.lt.3)then
+            if(errcount.lt.3.and.iwarn.eq.1)then
                write(*,*)'ACCIS WARNING world log y value',wy
      $           ,' far below box.'
-            elseif(errcount.eq.3)then
+            elseif(errcount.eq.3.and.iwarn.eq.1)then
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
             wy2ny=naymin-.1 
 !            write(*,*)wy,naymin,w2ny
          elseif(wy.gt.1000.*wymax) then
-            if(errcount.lt.3)then
+            if(errcount.lt.3.and.iwarn.eq.1)then
                write(*,*)'ACCIS WARNING world log y value',wy
      $           ,' far above box.'
-            elseif(errcount.eq.3)then
+            elseif(errcount.eq.3.and.iwarn.eq.1)then
                write(*,*)'Further log value warnings suppressed'
             endif
             errcount=errcount+1
