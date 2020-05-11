@@ -32,7 +32,10 @@ c Segments alternate pen down, pen up.
 c We shall bypass vecw and go straight to normal.
             nx=wx2nx(x(i))
             ny=wy2ny(y(i))
-            iptrunc=ptrunc(crsrx,crsry,nx,ny)
+c Do not actually move the cursor when ptrunc is called.
+            cx=crsrx 
+            cy=crsry
+            iptrunc=ptrunc(cx,cy,nx,ny)
             if(iptrunc.eq.99)then
 c This vector is fully outside the truncation box. Skip the plot
 c but move the cursor to the next point.

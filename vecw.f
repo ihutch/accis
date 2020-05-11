@@ -267,7 +267,7 @@ c  Draw a vector in normalized coordinates.
       integer ud
       include 'plotcom.h'
       real*4 prx,pry,crx,cry
-      integer ret,sx,sy,ptrunc
+      integer ret,ret1,ret2,sx,sy,ptrunc
       crx=nx
       cry=ny
       if(ltlog)then
@@ -276,11 +276,12 @@ c  Draw a vector in normalized coordinates.
          ret=ptrunc(prx,pry,crx,cry)
          ret2=ret/16
          ret1=ret-16*ret2
+!         if(ret.ne.0)write(*,'(3i3,6f8.4)')ret,ret1,ret2,prx,pry,crx,cry
          if(ret.ne.99)then
             if(ret1.gt.0)then
                call tn2s(prx,pry,sx,sy)
-               if(pfsw.ge.0)call vec(sx,sy,0)
-               if(pfsw.ne.0)call vecnp(prx,pry,0)
+               if(pfsw.ge.0) call vec(sx,sy,0)
+               if(pfsw.ne.0) call vecnp(prx,pry,0)
             endif 
             call tn2s(crx,cry,sx,sy)
             if(pfsw.ge.0) call vec(sx,sy,ud)
