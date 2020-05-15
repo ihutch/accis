@@ -36,7 +36,7 @@ COMPILE-SWITCHES = -Wall -O2
 ACCISCHECK:=\
 $(shell if [ "${CURDIR}" != "$(ACCISHOME)" ];\
  then	echo -n >&2 "Checking accis library ... ";\
- if [ -f "${ACCISX}" ] ; then echo>&2 "Library ${ACCISX} exists."; else\
+ if [ -f "${ACCISX}" ] ; then echo>&2 "${ACCISX} exists."; else\
    if [ -d "${ACCISPARENT}" ] ; then echo>&2 -n "parent directory exists. ";\
      else mkdir ${ACCISPARENT} ; fi;\
    if [ -d "${ACCISHOME}" ] ; then echo>&2 "accis directory exists. ";\
@@ -49,6 +49,7 @@ $(shell if [ "${CURDIR}" != "$(ACCISHOME)" ];\
 else echo >&2 "${CURDIR}" is the ACCISHOME: "$(ACCISHOME)". No tests. ; fi;\
 )
 ##########################################################################
+ifneq ("$(FORTRAN)","")
 # Detect what system we are on and whether X11 is installed.
 TESTMACOS:=$(shell ls /Users 2>&1 | grep "No such")
 ifeq ("$(TESTMACOS)","") 
@@ -58,8 +59,9 @@ ifeq ("$(TESTMACOS)","")
 # Test whether X libraries are found. Null => yes.
  TESTX11:=$(shell $(FORTRAN) $(LIBPATH) -lX11 -o /dev/null 2>&1 | grep X)
    ifneq ("$(TESTX11)","")
-     XNOTFOUND:=$(shell echo\
-	 "No X11 libraries found! On MacOS:  brew cask install xquartz" >&2;)
+     XNOTFOUND:=$(shell \
+	echo "No X11 libraries found! On MacOS: brew cask install xquartz" >&2;\
+	echo "or                           sudo port install xorg-libX11" >&2;)
    endif
 else
 # Test whether X libraries are found. Null => yes.
@@ -70,6 +72,7 @@ else
    endif
 endif
 TESTGL:=$(shell $(FORTRAN)  $(LIBPATH) -lGLU -lGL -o /dev/null 2>&1 | grep GL)
+endif
 #########################################################################
 # To satisfy dependencies by building accis in the standard place, copy
 # the file ACCIS.mk to your make directory; insert (before the first target)

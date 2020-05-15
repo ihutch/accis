@@ -660,8 +660,9 @@ c      data laxlog/.false./
       endif
 
       th=atan2(y2-y1,x2-x1)
-c      r=sqrt((y2-y1)**2+(x2-x1)**2)
       ct=cos(th)
+c Suppress rounding errors for pure vertical legend. 
+      if(x2-x1.eq.0)ct=0  
       st=sin(th)
       if(colwidth.eq.0.)then
          cpb=0.01*(st*(wxmax-wxmin)+ct*(wymax-wymin))
