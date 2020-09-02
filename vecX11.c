@@ -1,4 +1,4 @@
-/* Xlib driver for accis plotting */
+/* XLIB192 driver for accis plotting */
 /* Fortran callable routines */
 /* This version based on Xlib only, no Xt, derived from glX version. */
 int accis_driver_(){return 4;}
