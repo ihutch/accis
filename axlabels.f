@@ -24,7 +24,7 @@ c    Axis labels.   */
       character*(*) xaxlab,yaxlab
       include 'plotcom.h'
       call legendline(0.5,0.05,258,xaxlab)
-      call legendline(0.03,0.5,258,yaxlab)
+      call legendline(0.05,0.5,258,yaxlab)
       end
 c***********************************************************************
       subroutine axident3old()
