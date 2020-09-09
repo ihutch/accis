@@ -48,7 +48,7 @@ c Color (only) Contour of z on rectangular mesh.
      $     cldummy,0,xdummy,ydummy,48)
       call color(15)
       call axbox
-      call gradlegend(c1st,clast,-.2,0.,-.3,1.,.03,.false.) 
+      call gradlegend(c1st,clast,-.3,0.,-.3,1.,.03,.false.) 
       end
 c************************************************************************
       subroutine contourl(z,ppath,l,imax,jmax,cl,ncin,x,y,consw)
