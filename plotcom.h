@@ -34,7 +34,7 @@ c  Characters
       integer chrsaddr
       character*1 chrsfont
       common/chrcter/chrscos,chrssin,chrswdth,chrshght,chrsslnt,
-     & pchrswdth,pchrshght,pchrscos,pchrssin
+     & pchrswdth,pchrshght,pchrscos,pchrssin,chrsdef
       common/ac_chrfnt/chrsaddr(NOCHARS),chrsfont(BUFFER)
 c
 c  Plot-to-file control
