@@ -29,7 +29,7 @@ c
 c  Characters
       integer BUFFER,NOCHARS
       parameter (BUFFER=110000,NOCHARS=2000)
-      real chrscos,chrssin,chrswdth,chrshght,chrsslnt
+      real chrscos,chrssin,chrswdth,chrshght,chrsslnt,chrsdef
       real pchrswdth,pchrshght,pchrscos,pchrssin
       integer chrsaddr
       character*1 chrsfont
