@@ -49,7 +49,7 @@ c  Draw yaxis using the general axis routine.
       tog=0
       if(ncolumns.gt.1)then
          if( ((multype-2*(multype/2)) .eq. 0) .and.
-     $        (nframe.gt.nrows .or. nframe.eq.0) .and.
+     $        (nframe.lt.nrows .or. nframe.eq.0) .and.
      $        (nxlabw.gt.0) ) tog=1  
       endif
       if(tog.eq.1)call ticlabtog()
