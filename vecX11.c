@@ -232,7 +232,7 @@ FORT_INT *scrxpix, *scrypix, *vmode, *ncolor;
     initDefaultColors();
     second++;
     XGetWindowAttributes(accis_display,accis_root,&accis_rgwa);
-    printf("Root Width=%d\n",accis_rgwa.width);
+    /*printf("Root Width=%d\n",accis_rgwa.width);*/
     XSetLineAttributes(accis_display,accis_gc,accis_rgwa.width/1200,0,0,0);
   }
   /* Get the possibly new values of wdth/height*/
