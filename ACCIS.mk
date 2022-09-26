@@ -47,7 +47,8 @@ $(shell if [ "${CURDIR}" != "$(ACCISHOME)" ];\
    if [ -f "${ACCISX}" ] ; then echo>&2 "Made ${ACCISX}";\
      else echo>&2 "Error making ${ACCISX}"; fi;\
  fi;\
-else echo >&2 "${CURDIR}" is the ACCISHOME: "$(ACCISHOME)". No tests. ; fi;\
+else echo >&2 "${CURDIR}" is the ACCISHOME: "$(ACCISHOME)".\
+No library tests. ; fi;\
 )
 ##########################################################################
 ifneq ("$(FORTRAN)","")

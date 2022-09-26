@@ -5,10 +5,10 @@ c  Test of autocontour routine.
 
       s=30./nx
       do i=1,nx
-	 do j=1,ny
-	    x(i,j)=0.7*float(i-4)
-	    y(i,j)=j-4
-	    z(i,j)=sin(s*(x(i,j)-.3*y(i,j))/2.)*sin(s*y(i,j)/4.)
+         do j=1,ny
+            x(i,j)=0.7*float(i-4)
+            y(i,j)=j-4
+            z(i,j)=sin(s*(x(i,j)-.3*y(i,j))/2.)*sin(s*y(i,j)/4.)
          enddo
       enddo
       call pfset(3)
