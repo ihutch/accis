@@ -29,8 +29,8 @@ LIBPATH= -L $(ACCISHOME) -L.
 LIBRARIES = -laccisX -lX11
 LIBDEPS = $(ACCISHOME)/libaccisX.a
 #Allow higher makefile to overrule compile switches:
-COMPILE-SWITCHES := -Wall -O2 $(COMPILE-SWITCHES)
-#COMPILE-SWITCHES = -g -fbounds-check
+COMPILE-SWITCHES := -Wall -O2 -Wno-lto-type-mismatch -Wno-surprising $(COMPILE-SWITCHES)
+#Other possible debugging choices: -g -fbounds-check
 #########################################################################
 # Always check that the accis library is available and make it,
 # unless we are in the ACCISHOME directory doing things explicitly.
