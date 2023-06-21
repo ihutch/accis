@@ -223,10 +223,10 @@ FORT_INT *scrxpix, *scrypix, *vmode, *ncolor;
       printf("Root Wdth=%d Root Height=%d\n"
 	     ,accis_rgwa.width,accis_rgwa.height);
       printf("Requested x_size=%d y_size=%d\n",x_size,y_size); 
-      printf("Oversize=%f at x_size=%d\n",oversize,x_size);
+      printf("Oversize=%f at y_size=%d\n",oversize,y_size);
       y_size=accis_rgwa.height*.75;
       x_size=accis_rgwa.height*.75*4/3;
-      printf("Reset: x_size=%d y_size=%d\n",x_size,y_size); 
+      printf("Reset to 0.75*Height: x_size=%d y_size=%d\n",x_size,y_size); 
     }
     accis_window=XCreateWindow(accis_display, accis_root, 
  			       x_off, y_off, x_size, y_size, 0,

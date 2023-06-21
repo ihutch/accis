@@ -710,14 +710,16 @@ compiled with a F90 (or later) compiler. The explicit interface helps
 the compiler detect erroneous argument parameters to subroutine
 calls. It is not necessary for operation of debugged correct code.
 
-Displayed window size is by default 800x600 pixels. This default can be
-overridden by command line arguments of the form (e.g.)
-\verb!-geometry 1600x1200!, or by providing Xresources (in files
-.Xdefaults or .Xresources) of the standard form
-\verb!Accis.Geometry: 1600x1200+400+0! (case matters). On large
-screens, wider than 2400 pixels, the drawn line width is automatically
-increased to improve readability. None of these display settings
-influences the postscript file output.
+Running under X, displayed window size is by default 800x600
+pixels. This default can be overridden by command line arguments of
+the form (e.g.)  \verb!-geometry 1600x1200!, or by providing
+Xresources (in files .Xdefaults or .Xresources) of the standard form
+\verb!Accis.Geometry: 1600x1200+400+0! (case matters). If this size
+exceeds the screen size, at initiation the window is scaled down so
+its height is 0.75 of the screen height.  On large screens, wider than
+2400 pixels, the drawn line width is automatically increased to
+improve readability. None of these display settings influences the
+postscript file output.
 
 
 
