@@ -102,10 +102,11 @@ PLTINASPECT(xmin,xmax,ymin,ymax) Initiate graphics. Resize axis region
 to retain aspect ratio of plot with x,y in the same units. Set world scaling.
 
 AXREGION(xin,xan,yin,yan) Set the axis region in normal units.
-Default: .31,.91,.1,.7
+Default: .31,.91,.1,.7, which is reset if xin=xan=0.
 
-AXPTSET(xfrac,yfrac) Set the primary axis point (i.e. intersection) at specified
-fraction of the plot region (i.e.\ in box units). (Default 0.,0.)
+AXPTSET(xfrac,yfrac) Set the primary axis point (i.e. intersection) at
+specified fraction of the plot region (i.e.\ in box units). (Default
+0.,0.)
 
 MULTIFRAME(irows,icolumns,ispace) For subsequent plots (using pltinit),
 plot irows x icolumns plots per page, with label space determined by

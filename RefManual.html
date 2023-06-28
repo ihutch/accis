@@ -32,26 +32,7 @@
 <h3 align="center">I.H.Hutchinson </h3>
 
 <h3 align="center"> </h3>
-  
-<h1>Contents </h1><a href="#tth_sEc1"
->1&nbsp; Apologia</a><br /><a href="#tth_sEc2"
->2&nbsp; Conventions</a><br /><a href="#tth_sEc3"
->3&nbsp; Automatic plotting, single call plots.</a><br /><a href="#tth_sEc4"
->4&nbsp; Setup</a><br /><a href="#tth_sEc5"
->5&nbsp; Data plotting</a><br /><a href="#tth_sEc6"
->6&nbsp; Color</a><br /><a href="#tth_sEc7"
->7&nbsp; Axes</a><br /><a href="#tth_sEc8"
->8&nbsp; Text plotting</a><br /><a href="#tth_sEc9"
->9&nbsp; Contouring</a><br /><a href="#tth_sEc10"
->10&nbsp; Projected 3-D surface routines</a><br /><a href="#tth_sEc11"
->11&nbsp; Three-Dimensional Perspective Drawing</a><br /><a href="#tth_sEc12"
->12&nbsp; Plotting volumetric 3-D Data</a><br /><a href="#tth_sEc13"
->13&nbsp; Primitives</a><br /><a href="#tth_sEc14"
->14&nbsp; Utilities</a><br /><a href="#tth_sEc15"
->15&nbsp; Linking</a><br />
-
-<div class="p"><!----></div>
- <a id="tth_sEc1"></a><h2>
+   <a id="tth_sEc1"></a><h2>
 1&nbsp;&nbsp;Apologia</h2>
 
 <div class="p"><!----></div>
@@ -887,7 +868,7 @@ corner polylines.
 The routines are normally compiled and gathered into a library
 <tt>libaccis...</tt> which is subsequently linked against. Compiling is
 accomplished by issuing the simple command <tt>$&nbsp;make</tt>. The makefile
-searches for a fortran compiler and builds the libary if
+searches for a fortran compiler and builds the library if
 successful. If it can't find one, then e.g. <tt>$&nbsp;make&nbsp;G77=path90</tt>
 tells it the name of the compiler is <tt>path90</tt>. There are various
 other <tt>make</tt> targets that can be found in the Makefile.
@@ -931,14 +912,16 @@ the compiler detect erroneous argument parameters to subroutine
 calls. It is not necessary for operation of debugged correct code.
 
 <div class="p"><!----></div>
-Displayed window size is by default 800x600 pixels. This default can be
-overridden by command line arguments of the form (e.g.)
-<tt>-geometry&nbsp;1600x1200</tt>, or by providing Xresources (in files
-.Xdefaults or .Xresources) of the standard form
-<tt>Accis.Geometry:&nbsp;1600x1200+400+0</tt> (case matters). On large
-screens, wider than 2400 pixels, the drawn line width is automatically
-increased to improve readability. None of these display settings
-influences the postscript file output.
+Running under X, displayed window size is by default 800x600
+pixels. This default can be overridden by command line arguments of
+the form (e.g.)  <tt>-geometry&nbsp;1600x1200</tt>, or by providing
+Xresources (in files .Xdefaults or .Xresources) of the standard form
+<tt>Accis.Geometry:&nbsp;1600x1200+400+0</tt> (case matters). If this size
+exceeds the screen size, at initiation the window is scaled down so
+its height is 0.75 of the screen height.  On large screens, wider than
+2400 pixels, the drawn line width is automatically increased to
+improve readability. None of these display settings influences the
+postscript file output.
 
 <div class="p"><!----></div>
 <hr /><h3>Footnotes:</h3>
